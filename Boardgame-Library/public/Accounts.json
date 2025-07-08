@@ -1,0 +1,10 @@
+[{
+    "firstName": "John",
+    "lastName": "Doe",
+    "checkedOutItems": ["Azul", "Carcassonne"]
+},
+{
+    "firstName": "Jane",
+    "lastName": "Smith",
+    "checkedOutItems": ["Gaia Project", "Clans of Caledonia"]
+}]

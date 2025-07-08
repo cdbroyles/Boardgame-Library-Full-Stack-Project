@@ -1,0 +1,112 @@
+.fill-page {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+header {
+  font-size: 3rem;
+  font-family: 'Luckiest Guy', cursive;
+  background-color: forestgreen;
+  color: white;
+  padding-left: 2rem;
+  letter-spacing: 2.5px;
+  margin: 0;
+  max-height: fit-content;
+}
+
+header h1 {
+  margin: 0;
+}
+
+.header-link {
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+}
+
+.library-page-header {
+  margin-left: 2rem;
+}
+
+footer {
+  background-color: forestgreen;
+  color: white;
+  text-align: center;
+  padding: 1rem;
+  font-family: 'Nunito', sans-serif;
+  border-top: 4px solid darkgreen;
+}
+
+body {
+  height: 100%;
+  font-family: 'Nunito', sans-serif;
+  font-size: 16px;
+  line-height: 1.6;
+  margin: 0;
+  padding: 0;
+  background-color: darkgrey;
+}
+
+.body-content {
+  flex: 1;
+  display: flex;
+  align-items: flex-start;
+  flex-flow: row wrap;
+  gap: 10px;
+  padding: 2rem;
+}
+
+#flexbox-home {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-around;
+  align-items: center;
+  height: 300px;
+}
+
+#homepage-button {
+  display: inline-block;
+  width: 200px;
+  height: 200px;
+  background-color: forestgreen;
+  color: white;
+  font-family: 'Luckiest Guy', cursive;
+  font-size: 1.5rem;
+  text-align: center;
+  vertical-align: middle;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  border: 5px solid darkgreen;
+  border-radius: 16px;
+  box-shadow: 4px 4px 0 #003300;
+  cursor: pointer;
+}
+
+#game-collection {
+  border: solid 2.5px black;
+  padding: 1rem;
+  width: 200px;
+}
+
+#shopping-cart-bar {
+  position: fixed;
+  background-color: forestgreen;
+  color: white;
+  text-align: right;
+  padding-right: 2rem;
+  padding-left: 2rem;
+  bottom: 0;
+  right: 0;
+  /* width: 100%; */
+}
+
+.shopping-cart-icon {
+  width: 40px;
+  padding-left: 25px;
+  padding-right: 25px;
+}
+
+#name-input-form {
+  display: flex;
+  flex-direction: column;
+}
