@@ -2,12 +2,8 @@ import Footer from "../components/CommonFooter";
 import Header from "../components/CommonHeader";
 import { useState } from "react"
 
-const AccountLogin = () => {
-    const [userData, setUserData] = useState({
-        firstName: "",
-        lastName: ""
-    });
-    const [checkedOutItems, setCheckedOutItems] = useState(null);
+const ViewCheckedOutItems = () => {
+    const [tableNumber, setTableNumber] = useState("");
 
     const handleChange = (event) => {
         const { name, value } = event.target;
@@ -46,4 +42,4 @@ const AccountLogin = () => {
     )
 }
 
-export default AccountLogin;
+export default ViewCheckedOutItems;

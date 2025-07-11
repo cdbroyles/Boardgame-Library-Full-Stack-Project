@@ -79,7 +79,7 @@ body {
   border: 5px solid darkgreen;
   border-radius: 16px;
   box-shadow: 4px 4px 0 #003300;
-  cursor: pointer;
+  cursor: pointer
 }
 
 #game-collection {

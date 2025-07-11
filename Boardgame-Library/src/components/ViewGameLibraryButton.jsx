@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 
-const ViewGameLibrary = () => {
+const ViewGameLibraryButton = () => {
     return (
         <Link to="/GameLibrary">
             <button id="homepage-button">View Game Library</button>
@@ -8,4 +8,4 @@ const ViewGameLibrary = () => {
     )
 }
 
-export default ViewGameLibrary;
+export default ViewGameLibraryButton;

@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 
-const ReturnGame = () => {
+const ReturnGameButton = () => {
     return (
         <Link to="/Return">
             <button id="homepage-button">Return Games</button>
@@ -8,4 +8,4 @@ const ReturnGame = () => {
     )
 }
 
-export default ReturnGame;
+export default ReturnGameButton;
