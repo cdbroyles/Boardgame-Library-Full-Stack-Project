@@ -1,3 +1,4 @@
+import checkedOutItems from "../assets/CheckedOutItems";
 import Footer from "../components/CommonFooter";
 import Header from "../components/CommonHeader";
 import { useState } from "react"
@@ -5,23 +6,10 @@ import { useState } from "react"
 const ViewCheckedOutItems = () => {
     const [tableNumber, setTableNumber] = useState("");
 
-    const handleChange = (event) => {
-        const { name, value } = event.target;
-        setUserData((prevData) => ({
-            ...prevData,
-            [name]: value,
-        }));
-    };
-
-    const userNameFormSubmission = (event) => {
+    const tableNumberFormSubmission = (event) => {
         event.preventDefault();
-        
-        fetch("public/Accounts.json")
-            .then(response => response.json())
-            .then(data => {
-                console.log(data);
-                console.log(firstName);
-            })
+
+        console.log(checkedOutItems.filter(table => tableNumber == table.tableNumber));
     }
 
     return (
@@ -29,12 +17,18 @@ const ViewCheckedOutItems = () => {
             <Header />
             <div>
                 <h1>Please enter your name below to view your checked out games.</h1>
-                <form id="name-input-form" onSubmit={userNameFormSubmission}>
-                    <label htmlFor="first-name">Enter your first name:</label>
-                    <input type="text" id="first-name" name="first-name" placeholder="Please enter your first name" value={firstName} required />
-                    <label htmlFor="last-name">Enter your last name:</label>
-                    <input type="text" id="last-name" name="last-name" placeholder="Please enter your last name" required />                  
-                    <button type="submit" id="submit-button">Check Items</button>
+                <form id="checked-out-items-input-form" onSubmit={tableNumberFormSubmission}>
+                    <label htmlFor="table-number">Enter your table number:</label>
+                    <input
+                        type="text" 
+                        id="table-number" 
+                        name="table-number" 
+                        placeholder="Please enter the table number" 
+                        value={tableNumber}
+                        onChange={(event) => setTableNumber(event.target.value)}
+                        required /> )              
+                    <button type="submit" id="submit-table-number-button" className="submit-button">View Table Number</button>
+                    <button type="submit" id="submit-all-button" className="submit-button">View All</button>
                 </form>
             </div>
             <Footer />

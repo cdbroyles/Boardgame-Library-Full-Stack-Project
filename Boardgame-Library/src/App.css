@@ -106,7 +106,7 @@ body {
   padding-right: 25px;
 }
 
-#name-input-form {
+#checked-out-items-input-form {
   display: flex;
   flex-direction: column;
 }
