@@ -3,12 +3,12 @@ import Footer from "../components/CommonFooter";
 import Header from "../components/CommonHeader";
 import { useEffect, useState } from "react";
 import ListOfCheckedOutItems from "./ListOfCheckedOutItems";
-import { Link } from "react-router-dom";
 
 const ViewCheckedOutItems = () => {
     const [tableNumber, setTableNumber] = useState("");
     const [isSubmitted, setIsSubmitted] = useState(false);
     const [liveTableNumbers, setLiveTableNumbers] = useState([]);
+    const [tableNumberInventory, setTableNumberInventory] = useState([]);
 
  //This defines which tables currently has at least one game checked out
     useEffect(() => {
@@ -16,32 +16,16 @@ const ViewCheckedOutItems = () => {
         setLiveTableNumbers(activeTables);
     }, []);
 
-    console.log(liveTableNumbers[1]);
-    console.log(typeof(liveTableNumbers[1]));
-    // let activeTables = [];
-    // for (let table of checkedOutItems) {
-    //     // console.log("active tables = " + activeTables);
-    //     // console.log(table.tableNumber);
-    //     activeTables.push(table.tableNumber);
-    //     setLiveTableNumbers(activeTables);
-    //     console.log(liveTableNumbers.includes(2));
-    //     console.log(liveTableNumbers.includes(8));
-    // }
-
     const tableNumberFormSubmission = (event) => {
         event.preventDefault();
-
-        // console.log(checkedOutItems.filter(table => tableNumber == table.tableNumber));
-        // let activeTable = checkedOutItems.filter(table => tableNumber == table.tableNumber);
-        // console.log(typeof(activeTable));
-        // console.log(activeTable[0].games);
-        // console.log(checkedOutItems[tableNumber - 1].games);
-        // console.log(tableNumber);
+        if (tableNumber === 'View All Tables') {
+            console.log('view all worked!')
+        } else {
+            setTableNumberInventory(checkedOutItems.filter(table => tableNumber == table.tableNumber));
+        }
         setIsSubmitted(true);
     };
 
-    console.log("table number input:" + tableNumber);
-    console.log("type of tableNumber: " + typeof(tableNumber));
     return (
         <div className="fill-page">
             <Header />
@@ -79,14 +63,17 @@ const ViewCheckedOutItems = () => {
                         type="submit"
                         id="submit-all-button"
                         className="submit-button"
+                        onClick={() => {setTableNumber('View All Tables')}}
                     >
                         View All
                     </button>
                 </form>
-                {isSubmitted && liveTableNumbers.includes(Number(tableNumber)) ? (
+                {isSubmitted && tableNumber === 'View All Tables' ? (
+                    console.log('enter logic here')
+                ) : isSubmitted && liveTableNumbers.includes(Number(tableNumber)) ? (
                     <ListOfCheckedOutItems
                         tableNumber={tableNumber}
-                        games={checkedOutItems[indexOf(tableNumber)].games}
+                        games={tableNumberInventory[0].games}
                     />
                 ) : isSubmitted ? (
                     <p>Please enter an active table number.</p>

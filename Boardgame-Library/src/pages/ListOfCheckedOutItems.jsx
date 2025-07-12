@@ -1,5 +1,4 @@
 let ListOfCheckedOutItems = (prop) => {
-    console.log("hello");
     return(
         <>
             <p>Table number: {prop.tableNumber}</p>
