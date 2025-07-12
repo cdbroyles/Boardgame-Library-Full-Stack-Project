@@ -17,7 +17,6 @@ function App() {
             <Route path="/AccountLogin" element={<ViewCheckedOutItems />} />
             <Route path="/GameLibrary" element={<GameLibrary />} />
             <Route path="/Return" element={<ReturnGames />} />
-            <Route path="/ListOfCheckedOutItems" element={<ListOfCheckedOutItems />} />
           </Routes>
         </Router>
     </>
