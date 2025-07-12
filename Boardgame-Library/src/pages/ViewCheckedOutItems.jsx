@@ -69,7 +69,10 @@ const ViewCheckedOutItems = () => {
                     </button>
                 </form>
                 {isSubmitted && tableNumber === 'View All Tables' ? (
-                    console.log('enter logic here')
+                    <ListOfCheckedOutItems
+                        tableNumber={tableNumber}
+                        checkedOutItems={checkedOutItems}
+                />
                 ) : isSubmitted && liveTableNumbers.includes(Number(tableNumber)) ? (
                     <ListOfCheckedOutItems
                         tableNumber={tableNumber}
