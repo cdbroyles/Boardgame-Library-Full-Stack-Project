@@ -3,7 +3,7 @@ import { useState } from "react";
 const ShoppingCartBar = (title) => {
     const [numberInCart, setNumberInCart] = useState(0);
 
-    console.log(title);    
+    // console.log(title);    
     return(
 
         <div id="shopping-cart-bar">

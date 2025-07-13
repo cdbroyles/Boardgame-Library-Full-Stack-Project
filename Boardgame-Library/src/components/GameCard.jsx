@@ -1,16 +1,54 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import checkedOutItems from "../assets/CheckedOutItems";
 
 let GameCard = (prop) => {
     const [showForm, setShowForm] = useState(false);
     const [showReceipt, setShowReceipt] = useState(false);
     const [tableNumber, setTableNumber] = useState('');
 
+    //Sets a 4 second timer for the receipt to show.  Activates when showReceipt is true.
+    useEffect(() => {
+        if (showReceipt) {
+            setTimeout(() => {
+                setShowReceipt(false);
+            }, 4000);
+        }
+    }, [showReceipt]);
+
+    const updateCheckedOutItems = (event) => {
+        event.preventDefault();
+        let newCheckout = {
+            tableNumber: `${tableNumber}`,
+            games: [`${prop.game.name._text}`]
+        }
+        let addedItemToArray = false;
+
+        //Loops through the array of checked out items to see if table numbers match.
+        for (let table of checkedOutItems) {
+            if (newCheckout.tableNumber == table.tableNumber) {
+                table.games.push(prop.game.name._text);
+                prop.game.isAvailable = false;
+                addedItemToArray = true;
+            }
+        }
+
+        //If table numbers do not match, this will append a new table number with their checkedout items.
+        if (!addedItemToArray) {
+            checkedOutItems.push(newCheckout);
+        }
+
+        console.log(checkedOutItems);
+        setShowForm(false);
+        setShowReceipt(true);
+        addedItemToArray = false;
+    };
+
     return (
         <div id="game-collection" onClick={() => setShowForm(false)}>
             <img src={prop.game.thumbnail._text} alt={`${prop.game.name._text} thumbnail`} />
             <p><strong>Title: </strong>{prop.game.name._text}</p>
             <p><strong>Available: </strong> {prop.game.isAvailable ? "Yes" : "No"}</p>
-            <img src="src\assets\AddToCartIcon.png" onClick={(event) => {
+            <img src="src/assets/AddToCartIcon.png" onClick={(event) => {
                 event.stopPropagation();
                 setShowForm(true);
                 }} 
@@ -18,18 +56,18 @@ let GameCard = (prop) => {
                 id="add-to-cart-icon" 
                 className="shopping-cart-icon" 
             />
-            <img src="src\assets\RemoveFromCartIcon.png" alt="Remove from Cart" id="remove-from-cart-icon" className="shopping-cart-icon" />
+            <img src="src/assets/RemoveFromCartIcon.png" alt="Remove from Cart" id="remove-from-cart-icon" className="shopping-cart-icon" />
 
+            {/* stopPropagation prevents the onClick from the div above from running */}
             {showForm && (
-                <form>
+                <form onSubmit={updateCheckedOutItems} onClick={(event) => event.stopPropagation()}>
                     <input 
                         type="text" 
                         placeholder="Enter the table number" 
                         value={tableNumber}
                         onChange={(event) => setTableNumber(event.target.value)}
-                        onClick={(event) => event.stopPropagation()}
                     />
-                    <button type="submit" onClick={() => setShowReceipt(true)}>Checkout</button>
+                    <button type="submit">Checkout</button>
                 </form>
             )}
 

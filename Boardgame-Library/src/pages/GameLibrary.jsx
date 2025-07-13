@@ -10,6 +10,7 @@ const GameLibrary = () => {
     const [gameCollection, setGameCollection] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
 
+    //Loads BGG database of owner "cdbroyles" and converts the xml file to a javascript object
     useEffect(() => {
         fetch("https://boardgamegeek.com/xmlapi2/collection?username=cdbroyles&own=1&excludesubtype=boardgameexpansion")
             .then(response => response.text())
