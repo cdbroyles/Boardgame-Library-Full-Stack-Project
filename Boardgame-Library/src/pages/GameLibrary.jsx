@@ -27,7 +27,7 @@ const GameLibrary = () => {
         for (let table of checkedOutItems) {
             for (let title of table.games) {
                 unavailableGameTitles.push(title);
-            }
+            } 
         }
 
         //Makes an array of all available titles, regardless if they are or are not checked out.
