@@ -35,6 +35,7 @@ let GameCard = (prop) => {
         //If table numbers do not match, this will append a new table number with their checkedout items.
         if (!addedItemToArray) {
             checkedOutItems.push(newCheckout);
+            prop.game.isAvailable = false;
         }
 
         console.log(checkedOutItems);
