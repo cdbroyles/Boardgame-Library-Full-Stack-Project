@@ -4,6 +4,7 @@ import {useState, useEffect} from "react";
 import {xml2js} from 'xml-js';
 import GameCard from "../components/GameCard";
 import ShoppingCartBar from "../components/ShoppingCartBar";
+import checkedOutItems from "../assets/CheckedOutItems";
 
 const GameLibrary = () => {
     const [gameCollection, setGameCollection] = useState(null);
@@ -21,13 +22,32 @@ const GameLibrary = () => {
     );
 
     if (!isLoading) {
+        //Makes an array of titles that are currently checked out.
+        let unavailableGameTitles = [];
+        for (let table of checkedOutItems) {
+            for (let title of table.games) {
+                unavailableGameTitles.push(title);
+            }
+        }
+
+        //Makes an array of all available titles, regardless if they are or are not checked out.
+        let allGameTitles = [];
+        for (let game of gameCollection.items.item) {
+            let title = game.name._text
+            allGameTitles.push(title);
+        }
+
+        //Sets Available status or not available status for games.
         for (let game of gameCollection.items.item) {
             game.isAvailable = true;
+            for (let unavailableTitle of unavailableGameTitles) {
+                if (unavailableTitle === game.name._text) {
+                    game.isAvailable = false;
+                }
+            }
         }
+        // console.log(gameCollection)
     }
-
-    if (!isLoading) {console.log(gameCollection)};
-
 
     return (
         <div className="fill-page">
