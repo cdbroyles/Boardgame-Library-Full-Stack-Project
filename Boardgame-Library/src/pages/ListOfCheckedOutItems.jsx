@@ -29,4 +29,4 @@ let ListOfCheckedOutItems = (prop) => {
     
 }
 
-export default ListOfCheckedOutItems;
+export default ListOfCheckedOutItems; 

@@ -44,22 +44,38 @@ let GameCard = (prop) => {
         addedItemToArray = false;
     };
 
+    //Stop propagation prevents parent onClick from running.
     return (
         <div id="game-collection" onClick={() => setShowForm(false)}>
             <img src={prop.game.thumbnail._text} alt={`${prop.game.name._text} thumbnail`} />
             <p><strong>Title: </strong>{prop.game.name._text}</p>
             <p><strong>Available: </strong> {prop.game.isAvailable ? "Yes" : "No"}</p>
-            <img src="src/assets/AddToCartIcon.png" onClick={(event) => {
-                event.stopPropagation();
-                setShowForm(true);
+            <img 
+                src="src/assets/AddToCartIcon.png" 
+                onClick={(event) => {
+                    event.stopPropagation();
+                    setShowForm(true);
                 }} 
                 alt="Add to Cart" 
                 id="add-to-cart-icon" 
                 className="shopping-cart-icon" 
             />
-            <img src="src/assets/RemoveFromCartIcon.png" alt="Remove from Cart" id="remove-from-cart-icon" className="shopping-cart-icon" />
+            <img 
+                src="src/assets/RemoveFromCartIcon.png"
+                onClick={(event) => {
+                    const tableReturningItem = checkedOutItems.find(table => table.games.includes(prop.game.name._text));
+                    const indexOfTableReturningItem = checkedOutItems.indexOf(tableReturningItem);
+                    const returnedItem = tableReturningItem.games.find(game => game === prop.game.name._text);
+                    const indexOfReturnedItem = tableReturningItem.games.indexOf(returnedItem);
+                    checkedOutItems[indexOfTableReturningItem].games.splice(indexOfReturnedItem,1);
+                    prop.game.isAvailable = true;
+                    setShowReceipt(true);
+                }} 
+                alt="Remove from Cart" 
+                id="remove-from-cart-icon" 
+                className="shopping-cart-icon" 
+            />
 
-            {/* stopPropagation prevents the onClick from the div above from running */}
             {showForm && (
                 <form onSubmit={updateCheckedOutItems} onClick={(event) => event.stopPropagation()}>
                     <input 
@@ -72,8 +88,12 @@ let GameCard = (prop) => {
                 </form>
             )}
 
-            {showReceipt && (
+            {showReceipt && prop.game.isAvailable === false && (
                 <p>The game <strong>{prop.game.name._text}</strong> was checked out to <strong>table #{tableNumber}</strong></p>
+            )}
+
+            {showReceipt && prop.game.isAvailable === true && (
+                <p>The game <strong>{prop.game.name._text}</strong> was <strong>checked in</strong></p>
             )}
         </div>
     )

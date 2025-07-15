@@ -89,4 +89,4 @@ const ViewCheckedOutItems = () => {
     );
 };
 
-export default ViewCheckedOutItems;
+export default ViewCheckedOutItems; 
