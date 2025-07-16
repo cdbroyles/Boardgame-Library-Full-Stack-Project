@@ -1,3 +1,5 @@
+import checkedOutItems from "../assets/CheckedOutItems";
+
 let ListOfCheckedOutItems = (prop) => {
     if (prop.tableNumber === 'View All Tables') {
         return (
@@ -20,7 +22,9 @@ let ListOfCheckedOutItems = (prop) => {
                 <p>Table Number: {prop.tableNumber}</p>
                 <ul>
                     {prop.games.map((game, index) => (
-                        <li key={index}>{game}</li>
+                        <li key={index}>
+                            {game}
+                        </li>
                     ))}
                 </ul>
             </>

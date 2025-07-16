@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 import checkedOutItems from "../assets/CheckedOutItems";
+import CheckInGame from "./CheckInGame";
+import CheckOutGame from "./CheckoutGame";
 
 let GameCard = (prop) => {
     const [showForm, setShowForm] = useState(false);
@@ -44,36 +46,34 @@ let GameCard = (prop) => {
         addedItemToArray = false;
     };
 
+    const processCheckOut = (event) => {
+        event.stopPropagation();
+        setShowForm(true);
+    }
+    
+    const processCheckIn = () => {
+        const tableReturningItem = checkedOutItems.find(table => table.games.includes(prop.game.name._text));
+        const indexOfTableReturningItem = checkedOutItems.indexOf(tableReturningItem);
+        const returnedItem = tableReturningItem.games.find(game => game === prop.game.name._text);
+        const indexOfReturnedItem = tableReturningItem.games.indexOf(returnedItem);
+        checkedOutItems[indexOfTableReturningItem].games.splice(indexOfReturnedItem,1);
+        prop.game.isAvailable = true;
+        setShowReceipt(true);
+    }
+    
+
     //Stop propagation prevents parent onClick from running.
     return (
         <div id="game-collection" onClick={() => setShowForm(false)}>
-            <img src={prop.game.thumbnail._text} alt={`${prop.game.name._text} thumbnail`} />
-            <p><strong>Title: </strong>{prop.game.name._text}</p>
-            <p><strong>Available: </strong> {prop.game.isAvailable ? "Yes" : "No"}</p>
-            <img 
-                src="src/assets/AddToCartIcon.png" 
-                onClick={(event) => {
-                    event.stopPropagation();
-                    setShowForm(true);
-                }} 
-                alt="Add to Cart" 
-                id="add-to-cart-icon" 
-                className="shopping-cart-icon" 
+            <CheckOutGame 
+                thumbnailURL={prop.game.thumbnail._text} 
+                title={prop.game.name._text} 
+                isAvailable={prop.game.isAvailable} 
+                processCheckOut={processCheckOut}
             />
-            <img 
-                src="src/assets/RemoveFromCartIcon.png"
-                onClick={(event) => {
-                    const tableReturningItem = checkedOutItems.find(table => table.games.includes(prop.game.name._text));
-                    const indexOfTableReturningItem = checkedOutItems.indexOf(tableReturningItem);
-                    const returnedItem = tableReturningItem.games.find(game => game === prop.game.name._text);
-                    const indexOfReturnedItem = tableReturningItem.games.indexOf(returnedItem);
-                    checkedOutItems[indexOfTableReturningItem].games.splice(indexOfReturnedItem,1);
-                    prop.game.isAvailable = true;
-                    setShowReceipt(true);
-                }} 
-                alt="Remove from Cart" 
-                id="remove-from-cart-icon" 
-                className="shopping-cart-icon" 
+            <CheckInGame 
+                title={prop.game.name._text} 
+                processCheckIn={processCheckIn} 
             />
 
             {showForm && (

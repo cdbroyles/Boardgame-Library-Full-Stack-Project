@@ -3,7 +3,7 @@ import Header from "../components/CommonHeader";
 import {useState, useEffect} from "react";
 import {xml2js} from 'xml-js';
 import GameCard from "../components/GameCard";
-import ShoppingCartBar from "../components/ShoppingCartBar";
+// import ShoppingCartBar from "../components/ShoppingCartBar";
 import checkedOutItems from "../assets/CheckedOutItems";
 
 const GameLibrary = () => {
@@ -62,7 +62,7 @@ const GameLibrary = () => {
                     ))
                 )}
             </div>
-            <ShoppingCartBar />
+            {/* <ShoppingCartBar /> */}
             <Footer />
         </div>
     )
