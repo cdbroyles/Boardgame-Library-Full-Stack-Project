@@ -16,25 +16,28 @@ let ListOfCheckedOutItems = (prop) => {
     //Checkin function needed b/c cannot alternate a prop value within a component.
     const processCheckIn = (returnedItem) => {
         let tableReturningItem = null;
+        let indexOfTableReturningItem = null;
 
-        // if (prop.tableNumber === "View All Tables") {
-        //     const tableReturningItem = checkedOutItems.find(table => table.games.includes(returnedItem));
-        //     // const indexOfTableReturningItem = checkedOutItems.indexOf(tableReturningItem);
-        //     // const returnedItem = tableReturningItem.games.find(game => game === prop.game.name._text);
-        //     // const indexOfReturnedItem = tableReturningItem.games.indexOf(returnedItem);
-        //     // checkedOutItems[indexOfTableReturningItem].games.splice(indexOfReturnedItem,1);
-        // }
+        //Handles beginning checkin logic when "View All Tables" button is clicked
+        if (prop.tableNumber === "View All Tables") {
+            const tableReturningItemObject = checkedOutItems.find(table => table.games.includes(returnedItem));
+            tableReturningItem = tableReturningItemObject.tableNumber;
+            indexOfTableReturningItem = checkedOutItems.indexOf(tableReturningItemObject);
+        }
 
+        //Handles beginning checkin logic when a specific table number is viewed.
         if (typeof(prop.tableNumber) === "number") {
-            tableReturningItem = prop.tableNumber
+            tableReturningItem = prop.tableNumber;
+            indexOfTableReturningItem = checkedOutItems.findIndex(table => table.tableNumber === Number(tableReturningItem));
         }
         
-        const indexOfTableReturningItem = checkedOutItems.findIndex(table => table.tableNumber === Number(tableReturningItem));
+        //common logic between the two methods.
         const indexOfReturnedItem = checkedOutItems[indexOfTableReturningItem].games.indexOf(returnedItem);
         checkedOutItems[indexOfTableReturningItem].games.splice(indexOfReturnedItem,1);
         setUpdateList(true);
     }
 
+    //returns a list of checked out items by table number with a checkin option.
     if (prop.tableNumber === 'View All Tables') {
         return (
             <>
@@ -54,6 +57,8 @@ let ListOfCheckedOutItems = (prop) => {
             </>
         );
     } else {
+
+        //returns a list of checked out items from a specific table number with a checkin option.
         return (
             <>
                 <p>Table Number: {prop.tableNumber}</p>

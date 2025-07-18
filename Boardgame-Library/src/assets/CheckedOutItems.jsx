@@ -1,3 +1,5 @@
+//dummy data
+
 let checkedOutItems = [{
     tableNumber: 1,
     games: ["Azul", "Carcassonne"]
