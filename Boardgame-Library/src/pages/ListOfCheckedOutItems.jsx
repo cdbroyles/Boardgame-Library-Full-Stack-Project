@@ -1,21 +1,38 @@
+import { useEffect, useState } from "react";
 import checkedOutItems from "../assets/CheckedOutItems";
 import CheckInGame from "../components/CheckInGame";
 
 let ListOfCheckedOutItems = (prop) => {
+    const [updateList, setUpdateList] = useState(false);
+
+    useEffect(() => {
+        if (updateList) {
+            setTimeout(() => {
+                setUpdateList(false);
+            }, 50);
+        }
+    }, [updateList]);
+
     //Checkin function needed b/c cannot alternate a prop value within a component.
-    const processCheckIn = () => {
-        console.log(checkedOutItems);
-        console.log("checkedOutItems = " + checkedOutItems);
-        const tableReturningItem = prop.tableNumber;
-        console.log("tableReturningItem = " + tableReturningItem);
+    const processCheckIn = (returnedItem) => {
+        let tableReturningItem = null;
+
+        // if (prop.tableNumber === "View All Tables") {
+        //     const tableReturningItem = checkedOutItems.find(table => table.games.includes(returnedItem));
+        //     // const indexOfTableReturningItem = checkedOutItems.indexOf(tableReturningItem);
+        //     // const returnedItem = tableReturningItem.games.find(game => game === prop.game.name._text);
+        //     // const indexOfReturnedItem = tableReturningItem.games.indexOf(returnedItem);
+        //     // checkedOutItems[indexOfTableReturningItem].games.splice(indexOfReturnedItem,1);
+        // }
+
+        if (typeof(prop.tableNumber) === "number") {
+            tableReturningItem = prop.tableNumber
+        }
+        
         const indexOfTableReturningItem = checkedOutItems.findIndex(table => table.tableNumber === Number(tableReturningItem));
-        console.log("indexOfTableReturningItem = " + indexOfTableReturningItem);
-        console.log("checkedOutItems[indexOfTableReturningItem].games = " + checkedOutItems[indexOfTableReturningItem].games);
-        const returnedItem = checkedOutItems[indexOfTableReturningItem].games.find(game => game === prop.games );
-        console.log("returnedItem = " + returnedItem);
-        const indexOfReturnedItem = tableReturningItem.games.indexOf(returnedItem);
+        const indexOfReturnedItem = checkedOutItems[indexOfTableReturningItem].games.indexOf(returnedItem);
         checkedOutItems[indexOfTableReturningItem].games.splice(indexOfReturnedItem,1);
-        // setShowReceipt(true);
+        setUpdateList(true);
     }
 
     if (prop.tableNumber === 'View All Tables') {
@@ -26,7 +43,10 @@ let ListOfCheckedOutItems = (prop) => {
                         <p>Table Number: {table.tableNumber}</p>
                         <ul>
                             {table.games.map((game, index2) => (
-                                <li key={index2}>{game}</li>
+                                <li key={index2}>
+                                    {game}
+                                    <CheckInGame processCheckIn={processCheckIn} game={game} />
+                                </li>
                             ))}
                         </ul>
                     </div>
@@ -34,7 +54,7 @@ let ListOfCheckedOutItems = (prop) => {
             </>
         );
     } else {
-        return(
+        return (
             <>
                 <p>Table Number: {prop.tableNumber}</p>
                 <ul>

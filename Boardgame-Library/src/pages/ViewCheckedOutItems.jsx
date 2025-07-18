@@ -19,7 +19,6 @@ const ViewCheckedOutItems = () => {
     const tableNumberFormSubmission = (event) => {
         event.preventDefault();
         if (tableNumber === 'View All Tables') {
-            console.log('view all worked!')
         } else {
             setTableNumberInventory(checkedOutItems.filter(table => tableNumber == table.tableNumber));
         }
@@ -75,7 +74,7 @@ const ViewCheckedOutItems = () => {
                 />
                 ) : isSubmitted && liveTableNumbers.includes(Number(tableNumber)) ? (
                     <ListOfCheckedOutItems
-                        tableNumber={tableNumber}
+                        tableNumber={Number(tableNumber)}
                         games={tableNumberInventory[0].games}
                     />
                 ) : isSubmitted ? (
