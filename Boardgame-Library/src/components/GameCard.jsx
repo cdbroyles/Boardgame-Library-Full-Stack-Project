@@ -20,8 +20,8 @@ let GameCard = (prop) => {
     const updateCheckedOutItems = (event) => {
         event.preventDefault();
         let newCheckout = {
-            tableNumber: `${tableNumber}`,
-            games: [`${prop.game.name._text}`]
+            tableNumber: Number(tableNumber),
+            games: [prop.game.name._text]
         }
         let addedItemToArray = false;
 
@@ -40,17 +40,18 @@ let GameCard = (prop) => {
             prop.game.isAvailable = false;
         }
 
-        console.log(checkedOutItems);
         setShowForm(false);
         setShowReceipt(true);
         addedItemToArray = false;
     };
 
+    //Checkout function to match Checkin function
     const processCheckOut = (event) => {
         event.stopPropagation();
         setShowForm(true);
     }
     
+    //Checkin function needed b/c cannot alternate a prop value within a component.
     const processCheckIn = () => {
         const tableReturningItem = checkedOutItems.find(table => table.games.includes(prop.game.name._text));
         const indexOfTableReturningItem = checkedOutItems.indexOf(tableReturningItem);
@@ -60,7 +61,6 @@ let GameCard = (prop) => {
         prop.game.isAvailable = true;
         setShowReceipt(true);
     }
-    
 
     //Stop propagation prevents parent onClick from running.
     return (
@@ -72,7 +72,7 @@ let GameCard = (prop) => {
                 processCheckOut={processCheckOut}
             />
             <CheckInGame 
-                title={prop.game.name._text} 
+                // title={prop.game.name._text} 
                 processCheckIn={processCheckIn} 
             />
 
