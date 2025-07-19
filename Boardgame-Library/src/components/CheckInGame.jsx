@@ -6,6 +6,7 @@ const CheckInGame = (prop) => {
         alt="Remove from Cart" 
         id="remove-from-cart-icon" 
         className="shopping-cart-icon" 
+        title="Checkin Game"
     />
     )
 };
