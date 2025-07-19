@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import checkedOutItems from "../assets/CheckedOutItems";
-import CheckInGame from "../components/CheckInGame";
+import CheckInGame from "./CheckInGame";
 
 let ListOfCheckedOutItems = (prop) => {
     const [updateList, setUpdateList] = useState(false);
@@ -34,6 +34,10 @@ let ListOfCheckedOutItems = (prop) => {
         //common logic between the two methods.
         const indexOfReturnedItem = checkedOutItems[indexOfTableReturningItem].games.indexOf(returnedItem);
         checkedOutItems[indexOfTableReturningItem].games.splice(indexOfReturnedItem,1);
+        console.log(indexOfTableReturningItem);
+        if(checkedOutItems[indexOfTableReturningItem].games.length === 0) {
+            checkedOutItems.splice(indexOfTableReturningItem, 1);
+        }
         setUpdateList(true);
     }
 

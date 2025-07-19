@@ -58,6 +58,9 @@ let GameCard = (prop) => {
         const returnedItem = tableReturningItem.games.find(game => game === prop.game.name._text);
         const indexOfReturnedItem = tableReturningItem.games.indexOf(returnedItem);
         checkedOutItems[indexOfTableReturningItem].games.splice(indexOfReturnedItem,1);
+        if (tableReturningItem.games.length === 0) {
+            checkedOutItems.splice(indexOfTableReturningItem, 1);
+        }
         prop.game.isAvailable = true;
         setShowReceipt(true);
     }
@@ -80,7 +83,7 @@ let GameCard = (prop) => {
             {showForm && (
                 <form onSubmit={updateCheckedOutItems} onClick={(event) => event.stopPropagation()}>
                     <input 
-                        type="text" 
+                        type="number" 
                         placeholder="Enter the table number" 
                         value={tableNumber}
                         onChange={(event) => setTableNumber(event.target.value)}

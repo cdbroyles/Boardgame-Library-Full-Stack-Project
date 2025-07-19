@@ -2,7 +2,7 @@ import checkedOutItems from "../assets/CheckedOutItems";
 import Footer from "../components/CommonFooter";
 import Header from "../components/CommonHeader";
 import { useEffect, useState } from "react";
-import ListOfCheckedOutItems from "./ListOfCheckedOutItems";
+import ListOfCheckedOutItems from "../components/ListOfCheckedOutItems";
 
 const ViewCheckedOutItems = () => {
     const [tableNumber, setTableNumber] = useState("");
