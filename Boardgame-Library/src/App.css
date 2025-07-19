@@ -117,6 +117,13 @@ body {
   cursor: pointer
 }
 
+.inactive {
+  width: 40px;
+  padding-left: 25px;
+  padding-right: 25px;
+  filter: grayscale(100%)
+}
+
 #checked-out-items-input-form {
   display: flex;
   flex-direction: column;

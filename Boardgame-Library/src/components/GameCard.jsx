@@ -13,7 +13,7 @@ let GameCard = (prop) => {
         if (showReceipt) {
             setTimeout(() => {
                 setShowReceipt(false);
-            }, 4000);
+            }, 3000);
         }
     }, [showReceipt]);
 
@@ -69,9 +69,11 @@ let GameCard = (prop) => {
             <p><strong>Title: </strong>{prop.game.name._text}</p>
             <p><strong>Available: </strong> {prop.game.isAvailable ? "Yes" : "No"}</p>
             <CheckOutGame 
+                isAvailable={prop.game.isAvailable} 
                 processCheckOut={processCheckOut}
             />
-            <CheckInGame  
+            <CheckInGame 
+                isAvailable={prop.game.isAvailable}
                 processCheckIn={processCheckIn} 
             />
 
