@@ -1,7 +1,7 @@
 const CheckOutGame = (prop) => {
     return (
         <>
-            <img src={prop.thumbnailURL} alt={`${prop.title} thumbnail`} />
+            <img className="game-thumbnail" src={prop.thumbnailURL} alt={`${prop.title} thumbnail`} />
             <p><strong>Title: </strong>{prop.title}</p>
             <p><strong>Available: </strong> {prop.isAvailable ? "Yes" : "No"}</p>
             <img 

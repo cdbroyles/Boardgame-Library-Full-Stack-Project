@@ -25,7 +25,7 @@ header h1 {
 }
 
 .library-page-header {
-  margin-left: 2rem;
+  margin-left: 2.5rem;
 }
 
 footer {
@@ -88,7 +88,18 @@ body {
   width: 200px;
 }
 
-#shopping-cart-bar {
+.game-thumbnail {
+  transition: transform 0.3s ease;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.game-thumbnail:hover {
+  transform: scale(1.15);
+}
+
+/* #shopping-cart-bar {
   position: fixed;
   background-color: forestgreen;
   color: white;
@@ -97,8 +108,7 @@ body {
   padding-left: 2rem;
   bottom: 0;
   right: 0;
-  /* width: 100%; */
-}
+} */
 
 .shopping-cart-icon {
   width: 40px;
@@ -110,4 +120,21 @@ body {
 #checked-out-items-input-form {
   display: flex;
   flex-direction: column;
+}
+
+@media only screen and (max-width: 950px) {
+  h1 {grid-area: 1 / span 6; font-size: 3rem;}
+  h1.library-page-header {grid-area: 2 / span 6; font-size: 2.5rem;}
+  div.body-content {grid-area: 3 / span 6;}
+  footer {grid-area: 4 / span 6;}
+}
+
+@media only screen and (max-width: 600px) {
+  h1 {grid-area: 1 / span 6; font-size: 2rem;}
+  h1.library-page-header {grid-area: 2 / span 6; font-size: 1.5rem;}
+  div.body-content {grid-area: 3 / span 6;}
+  .game-thumbnail {display: none}
+  #game-collection {width: 125px}
+  .shopping-cart-icon {padding-left: 10px; padding-right: 10px;}
+  footer {grid-area: 4 / span 6;}
 }
