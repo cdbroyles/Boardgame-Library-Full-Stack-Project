@@ -65,14 +65,13 @@ let GameCard = (prop) => {
     //Stop propagation prevents parent onClick from running.
     return (
         <div id="game-collection" onClick={() => setShowForm(false)}>
+            <img className="game-thumbnail" src={prop.game.thumbnail._text} alt={`${prop.game.name._text} thumbnail`}/>
+            <p><strong>Title: </strong>{prop.game.name._text}</p>
+            <p><strong>Available: </strong> {prop.game.isAvailable ? "Yes" : "No"}</p>
             <CheckOutGame 
-                thumbnailURL={prop.game.thumbnail._text} 
-                title={prop.game.name._text} 
-                isAvailable={prop.game.isAvailable} 
                 processCheckOut={processCheckOut}
             />
-            <CheckInGame 
-                // title={prop.game.name._text} 
+            <CheckInGame  
                 processCheckIn={processCheckIn} 
             />
 
