@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import './App.css';
 import HomePage from './pages/HomePage';
@@ -13,7 +12,7 @@ function App() {
         <Router>
           <Routes>
             <Route path="/" element={<HomePage />} />
-            <Route path="/AccountLogin" element={<ViewCheckedOutItems />} />
+            <Route path="/ViewCheckout" element={<ViewCheckedOutItems />} />
             <Route path="/GameLibrary" element={<GameLibrary />} />
             <Route path="/About" element={<About />} />
           </Routes>

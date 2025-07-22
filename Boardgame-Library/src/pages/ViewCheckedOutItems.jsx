@@ -29,21 +29,22 @@ const ViewCheckedOutItems = () => {
         <div className="fill-page">
             <Header />
             <div>
-                <h1>
-                    Please enter your name below to view your checked out games.
+                <h1 className="info-page-header">
+                    Please enter the table number below to view the checked out games.
                 </h1>
                 <form
                     id="checked-out-items-input-form"
+                    className="info-page-body"
                     onSubmit={tableNumberFormSubmission}
                 >
-                    <label htmlFor="table-number">
+                    <label className="table-number-label">
                         Enter your table number:
                     </label>
                     <input
                         type="text"
-                        id="table-number"
+                        className="table-number-input-box"
                         name="table-number"
-                        placeholder="Please enter the table number"
+                        placeholder="Enter numerals only"
                         value={tableNumber}
                         onChange={(event) => {
                             setTableNumber(event.target.value);

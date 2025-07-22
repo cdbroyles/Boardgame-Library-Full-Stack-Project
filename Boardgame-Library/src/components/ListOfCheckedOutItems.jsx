@@ -13,19 +13,19 @@ let ListOfCheckedOutItems = (prop) => {
         }
     }, [updateList]);
 
-    //Checkin function needed b/c cannot alternate a prop value within a component.
+    //Check in function needed b/c cannot alter a prop value within a component.
     const processCheckIn = (returnedItem) => {
         let tableReturningItem = null;
         let indexOfTableReturningItem = null;
 
-        //Handles beginning checkin logic when "View All Tables" button is clicked
+        //Handles beginning check in logic when "View All Tables" button is clicked
         if (prop.tableNumber === "View All Tables") {
             const tableReturningItemObject = checkedOutItems.find(table => table.games.includes(returnedItem));
             tableReturningItem = tableReturningItemObject.tableNumber;
             indexOfTableReturningItem = checkedOutItems.indexOf(tableReturningItemObject);
         }
 
-        //Handles beginning checkin logic when a specific table number is viewed.
+        //Handles beginning check in logic when a specific table number is viewed.
         if (typeof(prop.tableNumber) === "number") {
             tableReturningItem = prop.tableNumber;
             indexOfTableReturningItem = checkedOutItems.findIndex(table => table.tableNumber === Number(tableReturningItem));
@@ -34,7 +34,6 @@ let ListOfCheckedOutItems = (prop) => {
         //common logic between the two methods.
         const indexOfReturnedItem = checkedOutItems[indexOfTableReturningItem].games.indexOf(returnedItem);
         checkedOutItems[indexOfTableReturningItem].games.splice(indexOfReturnedItem,1);
-        console.log(indexOfTableReturningItem);
         if(checkedOutItems[indexOfTableReturningItem].games.length === 0) {
             checkedOutItems.splice(indexOfTableReturningItem, 1);
         }
@@ -42,6 +41,11 @@ let ListOfCheckedOutItems = (prop) => {
     }
 
     //returns a list of checked out items by table number with a checkin option.
+    if (prop.tableNumber === 'View All Tables' && prop.checkedOutItems.length === 0) {
+        return (
+            <p>There are currently no items checked out.</p>
+        );
+    }
     if (prop.tableNumber === 'View All Tables') {
         return (
             <>

@@ -8,7 +8,7 @@ let GameCard = (prop) => {
     const [showReceipt, setShowReceipt] = useState(false);
     const [tableNumber, setTableNumber] = useState('');
 
-    //Sets a 4 second timer for the receipt to show.  Activates when showReceipt is true.
+    //Sets a 3 second timer for the receipt to show.  Activates when showReceipt is true.
     useEffect(() => {
         if (showReceipt) {
             setTimeout(() => {
@@ -22,7 +22,7 @@ let GameCard = (prop) => {
         let newCheckout = {
             tableNumber: Number(tableNumber),
             games: [prop.game.name._text]
-        }
+        };
         let addedItemToArray = false;
 
         //Loops through the array of checked out items to see if table numbers match.
@@ -40,6 +40,7 @@ let GameCard = (prop) => {
             prop.game.isAvailable = false;
         }
 
+        //This will remove the table number input form, then show a confirmation recepit that the checkout was successful.
         setShowForm(false);
         setShowReceipt(true);
         addedItemToArray = false;

@@ -3,10 +3,12 @@
   display: flex;
   flex-direction: column;
 }
+
 header {
   font-size: 3rem;
   font-family: 'Luckiest Guy', cursive;
   background-color: forestgreen;
+  border-bottom: 4px solid darkgreen;
   color: white;
   padding-left: 2rem;
   letter-spacing: 2.5px;
@@ -28,13 +30,32 @@ header h1 {
   margin-left: 2.5rem;
 }
 
+.info-page-header {
+  padding: 0rem 2rem 0rem 2rem;
+  font-family: 'Nunito', sans-serif;
+}
+
+.info-page-body {
+  padding: 0rem 2rem 0rem 4rem;
+  font-family: 'Nunito', sans-serif;
+}
+
 footer {
   background-color: forestgreen;
   color: white;
-  text-align: center;
+  text-align: left;
   padding: 1rem;
   font-family: 'Nunito', sans-serif;
   border-top: 4px solid darkgreen;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.footer-link {
+  font-family: inherit;
+  text-decoration: none;
+  color: inherit;
 }
 
 body {
@@ -64,7 +85,7 @@ body {
   height: 300px;
 }
 
-#homepage-button {
+.homepage-button {
   display: inline-block;
   width: 200px;
   height: 200px;
@@ -99,17 +120,6 @@ body {
   transform: scale(1.15);
 }
 
-/* #shopping-cart-bar {
-  position: fixed;
-  background-color: forestgreen;
-  color: white;
-  text-align: right;
-  padding-right: 2rem;
-  padding-left: 2rem;
-  bottom: 0;
-  right: 0;
-} */
-
 .shopping-cart-icon {
   width: 40px;
   padding-left: 25px;
@@ -126,7 +136,35 @@ body {
 
 #checked-out-items-input-form {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+}
+
+.table-number-label {
+  font-size: large;
+  padding-right: 8px;
+}
+
+.table-number-input-box {
+  width: 200px;
+  margin-right: 8px;
+}
+
+.submit-button {
+  display: inline-block;
+  width: 200px;
+  background-color: forestgreen;
+  color: white;
+  font-family: 'Luckiest Guy', cursive;
+  font-size: medium;
+  text-align: center;
+  vertical-align: middle;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  border: 5px solid darkgreen;
+  border-radius: 16px;
+  box-shadow: 4px 4px 0 #003300;
+  cursor: pointer;
+  margin: 0px 4px 0px 4px;
 }
 
 @media only screen and (max-width: 950px) {
