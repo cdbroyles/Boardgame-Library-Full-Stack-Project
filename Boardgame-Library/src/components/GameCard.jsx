@@ -52,7 +52,7 @@ let GameCard = (prop) => {
         setShowForm(true);
     }
     
-    //Checkin function needed b/c cannot alternate a prop value within a component.
+    //Checkin function needed b/c cannot alter a prop value within a component.
     const processCheckIn = () => {
         const tableReturningItem = checkedOutItems.find(table => table.games.includes(prop.game.name._text));
         const indexOfTableReturningItem = checkedOutItems.indexOf(tableReturningItem);

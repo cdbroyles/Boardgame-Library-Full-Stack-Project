@@ -1,5 +1,5 @@
-import Footer from "../components/CommonFooter"
-import Header from "../components/CommonHeader"
+import Footer from "../components/CommonFooter";
+import Header from "../components/CommonHeader";
 
 const About = () => {
     return (
@@ -16,6 +16,6 @@ const About = () => {
         </div>
         
     )
-}
+};
 
 export default About;

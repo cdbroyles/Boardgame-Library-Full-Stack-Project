@@ -10,7 +10,7 @@ const ViewCheckedOutItems = () => {
     const [liveTableNumbers, setLiveTableNumbers] = useState([]);
     const [tableNumberInventory, setTableNumberInventory] = useState([]);
 
- //This defines which tables currently has at least one game checked out
+ //This defines which tables currently have at least one game checked out
     useEffect(() => {
         const activeTables = checkedOutItems.map(table => table.tableNumber);
         setLiveTableNumbers(activeTables);

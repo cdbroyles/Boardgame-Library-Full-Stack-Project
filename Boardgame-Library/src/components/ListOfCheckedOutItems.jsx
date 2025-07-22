@@ -5,6 +5,7 @@ import CheckInGame from "./CheckInGame";
 let ListOfCheckedOutItems = (prop) => {
     const [updateList, setUpdateList] = useState(false);
 
+    //updateList was created to cause a rerender.  This will switch update list back to false whenever it is called so a future rerender could happen again.
     useEffect(() => {
         if (updateList) {
             setTimeout(() => {
@@ -46,6 +47,8 @@ let ListOfCheckedOutItems = (prop) => {
             <p>There are currently no items checked out.</p>
         );
     }
+
+    //returns a list of all checked out items organized by table number.
     if (prop.tableNumber === 'View All Tables') {
         return (
             <>
@@ -66,7 +69,7 @@ let ListOfCheckedOutItems = (prop) => {
         );
     } else {
 
-        //returns a list of checked out items from a specific table number with a checkin option.
+        //returns a list of checked out items from a specific table number.
         return (
             <>
                 <p>Table Number: {prop.tableNumber}</p>

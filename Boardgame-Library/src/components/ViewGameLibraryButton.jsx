@@ -6,6 +6,6 @@ const ViewGameLibraryButton = () => {
             <button className="homepage-button">View Game Library</button>
         </Link>
     )
-}
+};
 
 export default ViewGameLibraryButton;
