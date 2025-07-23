@@ -51,15 +51,18 @@ const GameLibrary = () => {
     return (
         <div className="fill-page">
             <Header />
-            <h1 className="library-page-header">Game Library Page</h1>
-            <div className="body-content">
-                {isLoading ? 
-                    (<p>The collection content is loading.  Please wait.</p>) :
-                    (gameCollection.items.item.map((game) => (
-                        <GameCard key={game._attributes.objectid} game={game} />
-                    ))
-                )}
-            </div>
+            <main>
+                <h1 className="library-page-text">Game Library Page</h1>
+                <p className="library-page-text"><strong>Instructions: </strong>Click the "add to cart" icon to check out an available game to a specific table.  Click the "remove from cart" icon when the game is returned.</p>
+                <div className="body-content">
+                    {isLoading ? 
+                        (<p>The collection content is loading.  Please wait.</p>) :
+                        (gameCollection.items.item.map((game) => (
+                            <GameCard key={game._attributes.objectid} game={game} />
+                        ))
+                    )}
+                </div>    
+            </main>
             <Footer />
         </div>
     )

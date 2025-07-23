@@ -10,16 +10,16 @@ const ViewCheckedOutItems = () => {
     const [liveTableNumbers, setLiveTableNumbers] = useState([]);
     const [tableNumberInventory, setTableNumberInventory] = useState([]);
 
- //This defines which tables currently have at least one game checked out
+    //This defines which tables currently have at least one game checked out
     useEffect(() => {
         const activeTables = checkedOutItems.map(table => table.tableNumber);
         setLiveTableNumbers(activeTables);
-    }, []);
+    }, [tableNumberInventory, tableNumber]);
 
+    //Gets the list of checked out items of a specific table.
     const tableNumberFormSubmission = (event) => {
         event.preventDefault();
-        if (tableNumber === 'View All Tables') {
-        } else {
+        if (tableNumber !== 'View All Tables') {
             setTableNumberInventory(checkedOutItems.filter(table => tableNumber == table.tableNumber));
         }
         setIsSubmitted(true);
@@ -28,7 +28,7 @@ const ViewCheckedOutItems = () => {
     return (
         <div className="fill-page">
             <Header />
-            <div>
+            <main>
                 <h1 className="info-page-header">
                     Please enter the table number below to view the checked out games.
                 </h1>
@@ -78,15 +78,17 @@ const ViewCheckedOutItems = () => {
                         tableNumber={Number(tableNumber)}
                         games={tableNumberInventory[0].games}
                     />
+                ) : isSubmitted && tableNumber !== 'View All Tables' && isNaN(tableNumber) ? (
+                    <p className="checkout-list">Please enter a numeric value.</p>
                 ) : isSubmitted ? (
-                    <p>Please enter an active table number.</p>
+                    <p className="checkout-list">Please enter an active table number.</p>
                 ) : (
-                    <p></p>
+                    <></>
                 )}
-            </div>
+            </main>
             <Footer />
         </div>
     );
 };
 
-export default ViewCheckedOutItems; 
+export default ViewCheckedOutItems;

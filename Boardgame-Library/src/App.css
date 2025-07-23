@@ -4,6 +4,10 @@
   flex-direction: column;
 }
 
+main {
+  flex: 1;
+}
+
 header {
   font-size: 3rem;
   font-family: 'Luckiest Guy', cursive;
@@ -26,7 +30,7 @@ header h1 {
   cursor: pointer;
 }
 
-.library-page-header {
+.library-page-text {
   margin-left: 2.5rem;
 }
 
@@ -40,16 +44,21 @@ header h1 {
   font-family: 'Nunito', sans-serif;
 }
 
+.checkout-list {
+  padding-left: 6rem;
+}
+
 footer {
   background-color: forestgreen;
   color: white;
   text-align: left;
-  padding: 1rem;
+  padding: 0rem 2rem 0rem 2rem;
   font-family: 'Nunito', sans-serif;
   border-top: 4px solid darkgreen;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin-top: 2rem;
 }
 
 .footer-link {

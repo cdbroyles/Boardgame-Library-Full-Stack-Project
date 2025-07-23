@@ -7,11 +7,7 @@ let ListOfCheckedOutItems = (prop) => {
 
     //updateList was created to cause a rerender.  This will switch update list back to false whenever it is called so a future rerender could happen again.
     useEffect(() => {
-        if (updateList) {
-            setTimeout(() => {
-                setUpdateList(false);
-            }, 50);
-        }
+        setUpdateList(false);
     }, [updateList]);
 
     //Check in function needed b/c cannot alter a prop value within a component.
@@ -41,17 +37,17 @@ let ListOfCheckedOutItems = (prop) => {
         setUpdateList(true);
     }
 
-    //returns a list of checked out items by table number with a checkin option.
+    //returns a message if 'View All Tables' is clicked and there are no currently checked out items.
     if (prop.tableNumber === 'View All Tables' && prop.checkedOutItems.length === 0) {
         return (
-            <p>There are currently no items checked out.</p>
+            <p className="checkout-list">There are currently no items checked out.</p>
         );
     }
 
-    //returns a list of all checked out items organized by table number.
+    //returns a list of all checked out items grouped by table number.
     if (prop.tableNumber === 'View All Tables') {
         return (
-            <>
+            <div className="checkout-list">
                 {prop.checkedOutItems.map((table, index) => (
                     <div key={index}>
                         <p>Table Number: {table.tableNumber}</p>
@@ -65,13 +61,14 @@ let ListOfCheckedOutItems = (prop) => {
                         </ul>
                     </div>
                 ))}
-            </>
+                <p><strong>Instructions: </strong>Click the "remove from cart" icon when the game is returned.</p>
+            </div>
         );
     } else {
 
         //returns a list of checked out items from a specific table number.
         return (
-            <>
+            <div className="checkout-list">
                 <p>Table Number: {prop.tableNumber}</p>
                 <ul>
                     {prop.games.map((game, index) => (
@@ -81,7 +78,8 @@ let ListOfCheckedOutItems = (prop) => {
                         </li>
                     ))}
                 </ul>
-            </>
+                <p><strong>Instructions: </strong>Click the "remove from cart" icon when the game is returned.</p>
+            </div>
         );  
     }
     

@@ -3,14 +3,14 @@ import Header from "../components/CommonHeader";
 import ViewCheckedOutItemsButton from "../components/ViewCheckedOutItemsButton";
 import ViewGameLibraryButton from "../components/ViewGameLibraryButton";
 
-let HomePage = () => {
+const HomePage = () => {
     return(
         <div className="fill-page">
             <Header />
-            <div id="flexbox-home" className="body-content">
+            <main id="flexbox-home" className="body-content">
                 <ViewCheckedOutItemsButton />
                 <ViewGameLibraryButton />
-            </div>
+            </main>
             <Footer />
         </div>
     )
