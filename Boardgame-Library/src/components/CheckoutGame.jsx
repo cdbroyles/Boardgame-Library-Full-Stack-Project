@@ -5,7 +5,7 @@ const CheckOutGame = (prop) => {
     return (
         //check out game image with variable class name.  Also has logic for disabling check out when the game is not available.
         <img 
-            src="./Boardgame-Library/assets/AddToCartIcon.png" 
+            src="./assets/AddToCartIcon.png" 
             onClick={(event) => {prop.isAvailable ? prop.processCheckOut(event) : <></>}}
             alt="Add to Cart" 
             id="add-to-cart-icon"
