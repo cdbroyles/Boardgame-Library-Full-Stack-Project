@@ -1,4 +1,4 @@
-import AddToCartIcon from 'src/assets/AddToCartIcon.png';
+import AddToCartIcon from '../assets/AddToCartIcon.png';
 
 const CheckOutGame = (prop) => {
     //code to differentiate class name for when item is available vs. when item is not available
