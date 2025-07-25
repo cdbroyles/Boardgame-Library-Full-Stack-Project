@@ -1,4 +1,4 @@
-import RemoveFromCartIcon from '../assets/RemoveFromCartIcon.png';
+import AddToCartIcon from 'src/assets/AddToCartIcon.png';
 
 const CheckOutGame = (prop) => {
     //code to differentiate class name for when item is available vs. when item is not available
@@ -7,7 +7,7 @@ const CheckOutGame = (prop) => {
     return (
         //check out game image with variable class name.  Also has logic for disabling check out when the game is not available.
         <img 
-            src={RemoveFromCartIcon}
+            src={AddToCartIcon}
             onClick={(event) => {prop.isAvailable ? prop.processCheckOut(event) : <></>}}
             alt="Add to Cart" 
             id="add-to-cart-icon"
