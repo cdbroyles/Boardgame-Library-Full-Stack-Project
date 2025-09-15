@@ -8,6 +8,9 @@ import checkedOutItems from "../assets/CheckedOutItems";
 const GameLibrary = () => {
     const [gameCollection, setGameCollection] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
+    const [isSearching, setIsSearching] = useState(false);
+    const [searchCollection, setSearchCollection] = useState("");
+    let searchedGames = [];
 
     //Loads BGG database of owner "cdbroyles" and converts the xml file to a javascript object
     useEffect(() => {
@@ -46,6 +49,18 @@ const GameLibrary = () => {
                 }
             }
         }
+
+        if (searchCollection.trim() !== "") {
+            searchedGames = gameCollection.items.item.filter((game) =>
+                game.name._text.toLowerCase().includes(searchCollection.toLowerCase())
+            );
+        }
+
+        if (isSearching) {
+            if (searchCollection == "") {
+                setIsSearching(false);
+            }
+        }
     }
 
     return (
@@ -53,14 +68,45 @@ const GameLibrary = () => {
             <Header />
             <main>
                 <h1 className="library-page-text">Game Library Page</h1>
+                <form
+                    id="checked-out-items-input-form"
+                    className="info-page-body"
+                >
+                    <label className="table-number-label">
+                        Enter the title of a game:
+                    </label>
+                    <input
+                        type="text"
+                        className="table-number-input-box"
+                        name="game-search"
+                        placeholder="Enter the game title here"
+                        value={searchCollection}
+                        onChange={(event) => {
+                            setSearchCollection(event.target.value);
+                            setIsSearching(true);
+                        }}
+                    />
+                    <button
+                        type="submit"
+                        id="submit-table-number-button"
+                        className="submit-button"
+                        onClick={() => setSearchCollection("")}
+                    >
+                        Clear
+                    </button>
+                </form>
                 <p className="library-page-text"><strong>Instructions: </strong>Click the "add to cart" icon to check out an available game to a specific table.  Click the "remove from cart" icon when the game is returned.</p>
                 <div className="body-content">
                     {isLoading ? 
                         (<p>The collection content is loading.  Please wait.</p>) :
-                        (gameCollection.items.item.map((game) => (
-                            <GameCard key={game._attributes.objectid} game={game} />
-                        ))
-                    )}
+                            (isSearching ?
+                                (searchedGames.length == 0 ? 
+                                    <p>No results found.  Please try to search for another title.</p> :
+                                    (searchedGames.map((game) => (<GameCard key={game._attributes.objectid} game={game} />)))
+                                ):
+                                (gameCollection.items.item.map((game) => (<GameCard key={game._attributes.objectid} game={game} />)))
+                            )
+                    }
                 </div>    
             </main>
             <Footer />
