@@ -2,7 +2,7 @@
 
 let checkedOutItems = [{
     tableNumber: 1,
-    games: ["Azul", "Carcassonne"]
+    games: ["Agricola", "Carcassonne"]
 }, {
     tableNumber: 2,
     games: ["Gaia Project", "Clans of Caledonia"]
