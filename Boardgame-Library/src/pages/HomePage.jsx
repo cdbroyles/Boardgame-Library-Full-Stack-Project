@@ -3,10 +3,10 @@ import Header from "../components/CommonHeader";
 import LogInButton from "../components/LogInButton";
 import ViewCheckedOutItemsButton from "../components/ViewCheckedOutItemsButton";
 import ViewGameLibraryButton from "../components/ViewGameLibraryButton";
-import {useState, useEffect} from "react";
+import { useAuth } from "../context/AuthContext.jsx";
 
 const HomePage = () => {
-    const [isLogIn, setIsLogIn] = useState(false);
+    const [isLogIn, setIsLogIn] = useAuth();
 
     return(
         <div className="fill-page">
