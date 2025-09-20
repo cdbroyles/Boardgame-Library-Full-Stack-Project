@@ -4,12 +4,14 @@ import {useState, useEffect} from "react";
 import {xml2js} from 'xml-js';
 import GameCard from "../components/GameCard";
 import checkedOutItems from "../assets/CheckedOutItems";
+import { useAuth } from "../context/AuthContext";
 
 const GameLibrary = () => {
     const [gameCollection, setGameCollection] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
     const [isSearching, setIsSearching] = useState(false);
     const [searchCollection, setSearchCollection] = useState("");
+    const [isLogIn] = useAuth();
     let searchedGames = [];
 
     //Loads BGG database of owner "cdbroyles" and converts the xml file to a javascript object
@@ -95,7 +97,7 @@ const GameLibrary = () => {
                         Clear
                     </button>
                 </form>
-                <p className="library-page-text"><strong>Instructions: </strong>Click the "add to cart" icon to check out an available game to a specific table.  Click the "remove from cart" icon when the game is returned.</p>
+                {isLogIn ? <p className="library-page-text"><strong>Instructions: </strong>Click the "add to cart" icon to check out an available game to a specific table.  Click the "remove from cart" icon when the game is returned.</p> : <br />}
                 <div className="body-content">
                     {isLoading ? 
                         (<p>The collection content is loading.  Please wait.</p>) :

@@ -6,12 +6,13 @@ import ViewGameLibraryButton from "../components/ViewGameLibraryButton";
 import { useAuth } from "../context/AuthContext.jsx";
 
 const HomePage = () => {
-    const [isLogIn, setIsLogIn] = useAuth();
+    const [isLogIn, setIsLogIn, username, setUsername] = useAuth();
 
     return(
         <div className="fill-page">
             <Header />
-            <main id="flexbox-home" className="body-content">
+            <h2 className="page-intro">{isLogIn ? "Welcome " + username + "!  You can now manage inventory." : "Feel free to view our game library!  Please log in as an imployee to manage inventory."}</h2>
+            <main id="flexbox-home" className="body-content"> 
                 {isLogIn ? <ViewCheckedOutItemsButton /> : <LogInButton />}
                 <ViewGameLibraryButton />
             </main>
