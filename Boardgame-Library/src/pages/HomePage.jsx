@@ -11,7 +11,7 @@ const HomePage = () => {
     return(
         <div className="fill-page">
             <Header />
-            <h2 className="page-intro">{isLogIn ? "Welcome " + username + "!  You can now manage inventory." : "Feel free to view our game library!  Please log in as an imployee to manage inventory."}</h2>
+            <h2 className="page-intro">{isLogIn ? "Welcome " + username + "!  You can now manage inventory." : "Feel free to view our game library!  Please log in as an employee to manage inventory."}</h2>
             <main id="flexbox-home" className="body-content"> 
                 {isLogIn ? <ViewCheckedOutItemsButton /> : <LogInButton />}
                 <ViewGameLibraryButton />
