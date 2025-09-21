@@ -2,11 +2,13 @@ import { useEffect, useState } from "react";
 import checkedOutItems from "../assets/CheckedOutItems";
 import CheckInGame from "./CheckInGame";
 import CheckOutGame from "./CheckoutGame";
+import { useAuth } from "../context/AuthContext";
 
 let GameCard = (prop) => {
     const [showForm, setShowForm] = useState(false);
     const [showReceipt, setShowReceipt] = useState(false);
     const [tableNumber, setTableNumber] = useState('');
+    const [isLogIn, setIsLogIn] = useAuth();
 
     //Sets a 3 second timer for the receipt to show.  Activates when showReceipt is true.
     useEffect(() => {
@@ -72,14 +74,8 @@ let GameCard = (prop) => {
             <img className="game-thumbnail" src={prop.game.thumbnail._text} alt={`${prop.game.name._text} thumbnail`}/>
             <p><strong>Title: </strong>{prop.game.name._text}</p>
             <p><strong>Available: </strong> {prop.game.isAvailable ? "Yes" : "No"}</p>
-            <CheckOutGame 
-                isAvailable={prop.game.isAvailable} 
-                processCheckOut={processCheckOut}
-            />
-            <CheckInGame 
-                isAvailable={prop.game.isAvailable}
-                processCheckIn={processCheckIn} 
-            />
+            {isLogIn ? <CheckOutGame isAvailable={prop.game.isAvailable} processCheckOut={processCheckOut} /> : ""}
+            {isLogIn ? <CheckInGame isAvailable={prop.game.isAvailable} processCheckIn={processCheckIn} /> : ""}
 
             {showForm && (
                 <form onSubmit={updateCheckedOutItems} onClick={(event) => event.stopPropagation()}>

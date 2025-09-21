@@ -4,6 +4,7 @@ import HomePage from './pages/HomePage';
 import GameLibrary from './pages/GameLibrary';
 import ViewCheckedOutItems from './pages/ViewCheckedOutItems';
 import About from './pages/About';
+import LogInPage from './pages/LogInPage';
 
 function App() {
 
@@ -12,6 +13,7 @@ function App() {
         <Router>
           <Routes>
             <Route path="/" element={<HomePage />} />
+            <Route path="/LogIn" element={<LogInPage />} />
             <Route path="/ViewCheckout" element={<ViewCheckedOutItems />} />
             <Route path="/GameLibrary" element={<GameLibrary />} />
             <Route path="/About" element={<About />} />
