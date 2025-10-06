@@ -6,26 +6,24 @@ import { useAuth } from "../context/AuthContext.jsx";
 import { useNavigate } from "react-router";
 
 const LogInPage = () => {
-    const [isLogIn, setIsLogIn, username, setUsername] = useAuth();
+    const [isLogIn, setIsLogIn, username, setUsername, isAdmin, setIsAdmin] = useAuth();
     const [password, setPassword] = useState("");
-    const [isMessage, setIsMessage] = useState(false);
+    const [showLoginErrorMessage, setShowLoginErrorMessage] = useState(false);
     const navigate = useNavigate();
     
     const message = "Username and/or password not found.  Please try again.";
 
     const validation = (event) => {
         event.preventDefault();
-        console.log("Username = " + username + ". Password = " + password);
         for (const user of userPass) {
-            console.log(user.username + " and " + user.password);
             if (user.username === username) {
                 if (user.password === password) {
                     setIsLogIn(true);
-                    setIsMessage(false);
+                    setShowLoginErrorMessage(false);
                     navigate('/');
                 } 
             } else {
-                setIsMessage(true);
+                setShowLoginErrorMessage(true);
             }
         }
     }
@@ -67,7 +65,7 @@ const LogInPage = () => {
                     </button>
                     
                 </form>
-                {isMessage ? <p className="info-page-body"><b>{message}</b></p> : ""}
+                {showLoginErrorMessage ? <p className="info-page-body"><b>{message}</b></p> : ""}
             </main>
             <Footer />
         </div>

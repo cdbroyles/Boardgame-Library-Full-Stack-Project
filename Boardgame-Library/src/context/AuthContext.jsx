@@ -6,9 +6,10 @@ const AuthContext = createContext();
 export const AuthProvider = ({ children }) => {
   const [isLogIn, setIsLogIn] = useState(false);
   const [username, setUsername] = useState("");
+  const [isAdmin, setIsAdmin] = useState(false);
 
   return (
-    <AuthContext.Provider value={[ isLogIn, setIsLogIn, username, setUsername ]}>
+    <AuthContext.Provider value={[ isLogIn, setIsLogIn, username, setUsername, isAdmin, setIsAdmin ]}>
       {children}
     </AuthContext.Provider>
   );

@@ -63,10 +63,11 @@ let ListOfCheckedOutItems = (prop) => {
                         </ul>
                     </div>
                 ))}
-                <p><strong>Instructions: </strong>Click the "remove from cart" icon when the game is returned.</p>
+                {isLogIn ? <p><strong>Instructions: </strong>Click the "remove from cart" icon when the game is returned.</p> : ""}
             </div>
         );
-    } else {
+    } 
+    else {
 
         //returns a list of checked out items from a specific table number.
         return (
@@ -80,7 +81,7 @@ let ListOfCheckedOutItems = (prop) => {
                         </li>
                     ))}
                 </ul>
-                <p><strong>Instructions: </strong>Click the "remove from cart" icon when the game is returned.</p>
+                {isLogIn ? <p><strong>Instructions: </strong>Click the "remove from cart" icon when the game is returned.</p> : ""}
             </div>
         );  
     }

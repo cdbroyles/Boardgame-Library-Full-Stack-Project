@@ -1,11 +1,13 @@
 //dummy data
 
 let userPass = [{
-    username: "user",
-    password: "pass"
+    username: "admin",
+    password: "adminpass",
+    isAdmin: true
 }, {
-    username: "user2",
-    password: "pass2"
+    username: "user",
+    password: "userpass",
+    isAdmin: false
 }]
 
 export default userPass;
