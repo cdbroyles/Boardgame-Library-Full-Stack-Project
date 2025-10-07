@@ -19,6 +19,9 @@ const LogInPage = () => {
             if (user.username === username) {
                 if (user.password === password) {
                     setIsLogIn(true);
+                    if (user.isAdmin === true) {
+                        setIsAdmin(true);
+                    }
                     setShowLoginErrorMessage(false);
                     navigate('/');
                 } 
@@ -32,7 +35,7 @@ const LogInPage = () => {
         <div className="fill-page">
             <Header />
             <main>
-                <h1 className="library-page-text">Log In</h1>
+                <h1 className="info-page-header">Log In</h1>
                 <form className="info-page-body" onSubmit={validation}>
                     <label className="table-number-label">Enter your username: </label>
                     <input

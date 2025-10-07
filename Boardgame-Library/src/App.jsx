@@ -5,7 +5,7 @@ import GameLibrary from './pages/GameLibrary';
 import ViewCheckedOutItems from './pages/ViewCheckedOutItems';
 import About from './pages/About';
 import LogInPage from './pages/LogInPage';
-import UpdatePersonel from './pages/UpdatePersonel';
+import UpdatePersonnel from './pages/UpdatePersonnel';
 
 function App() {
 
@@ -15,7 +15,7 @@ function App() {
           <Routes>
             <Route path="/" element={<HomePage />} />
             <Route path="/LogIn" element={<LogInPage />} />
-            <Route path="/Personel" element={<UpdatePersonel />} />
+            <Route path="/Personnel" element={<UpdatePersonnel />} />
             <Route path="/ViewCheckout" element={<ViewCheckedOutItems />} />
             <Route path="/GameLibrary" element={<GameLibrary />} />
             <Route path="/About" element={<About />} />
