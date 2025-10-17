@@ -6,26 +6,27 @@ import { useAuth } from "../context/AuthContext.jsx";
 import { useNavigate } from "react-router";
 
 const LogInPage = () => {
-    const [isLogIn, setIsLogIn, username, setUsername] = useAuth();
+    const [isLogIn, setIsLogIn, username, setUsername, isAdmin, setIsAdmin] = useAuth();
     const [password, setPassword] = useState("");
-    const [isMessage, setIsMessage] = useState(false);
+    const [showLoginErrorMessage, setShowLoginErrorMessage] = useState(false);
     const navigate = useNavigate();
     
     const message = "Username and/or password not found.  Please try again.";
 
     const validation = (event) => {
         event.preventDefault();
-        console.log("Username = " + username + ". Password = " + password);
         for (const user of userPass) {
-            console.log(user.username + " and " + user.password);
             if (user.username === username) {
                 if (user.password === password) {
                     setIsLogIn(true);
-                    setIsMessage(false);
+                    if (user.isAdmin === true) {
+                        setIsAdmin(true);
+                    }
+                    setShowLoginErrorMessage(false);
                     navigate('/');
                 } 
             } else {
-                setIsMessage(true);
+                setShowLoginErrorMessage(true);
             }
         }
     }
@@ -34,7 +35,7 @@ const LogInPage = () => {
         <div className="fill-page">
             <Header />
             <main>
-                <h1 className="library-page-text">Log In</h1>
+                <h1 className="info-page-header">Log In</h1>
                 <form className="info-page-body" onSubmit={validation}>
                     <label className="table-number-label">Enter your username: </label>
                     <input
@@ -67,7 +68,7 @@ const LogInPage = () => {
                     </button>
                     
                 </form>
-                {isMessage ? <p className="info-page-body"><b>{message}</b></p> : ""}
+                {showLoginErrorMessage ? <p className="info-page-body"><b>{message}</b></p> : ""}
             </main>
             <Footer />
         </div>
