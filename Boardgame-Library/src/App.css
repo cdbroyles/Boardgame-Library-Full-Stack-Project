@@ -9,15 +9,18 @@ main {
 }
 
 header {
+  display: flex;
   font-size: 3rem;
   font-family: 'Luckiest Guy', cursive;
   background-color: forestgreen;
   border-bottom: 4px solid darkgreen;
   color: white;
-  padding-left: 2rem;
+  padding: 0rem 2rem;
   letter-spacing: 2.5px;
   margin: 0;
   max-height: fit-content;
+  justify-content: space-between;
+  align-items: center;
 }
 
 header h1 {
@@ -28,6 +31,14 @@ header h1 {
   text-decoration: none;
   color: inherit;
   cursor: pointer;
+}
+
+.header-login {
+  font-size: 1rem;
+  color: white;
+  text-decoration: none;
+  cursor: pointer;
+  margin-right: 2rem;
 }
 
 .library-page-text {
@@ -83,15 +94,26 @@ body {
   align-items: flex-start;
   flex-flow: row wrap;
   gap: 10px;
-  padding: 2rem;
+  padding: 0rem 2rem 0rem 2rem;
 }
 
 #flexbox-home {
   display: flex;
-  flex-flow: row wrap;
-  justify-content: space-around;
+  justify-content: center;
   align-items: center;
-  height: 300px;
+  flex: 1;
+  justify-content: space-evenly;
+  flex-wrap: wrap;
+  gap: 2rem;
+  padding: 0 2rem;
+}
+
+.page-intro {
+  margin: 0;
+  padding-left: 2rem;
+  padding-top: 1rem;
+  text-align: left;
+  font-family: 'Nunito', sans-serif;
 }
 
 .homepage-button {
@@ -109,7 +131,7 @@ body {
   border: 5px solid darkgreen;
   border-radius: 16px;
   box-shadow: 4px 4px 0 #003300;
-  cursor: pointer
+  cursor: pointer;
 }
 
 #game-collection {
@@ -133,14 +155,14 @@ body {
   width: 40px;
   padding-left: 25px;
   padding-right: 25px;
-  cursor: pointer
+  cursor: pointer;
 }
 
 .inactive {
   width: 40px;
   padding-left: 25px;
   padding-right: 25px;
-  filter: grayscale(100%)
+  filter: grayscale(100%);
 }
 
 #checked-out-items-input-form {
@@ -176,7 +198,7 @@ body {
   margin: 0px 4px 0px 4px;
 }
 
-@media only screen and (max-width: 950px) {
+@media only screen and (max-width: 1025px) {
   h1 {grid-area: 1 / span 6; font-size: 3rem;}
   h1.library-page-header {grid-area: 2 / span 6; font-size: 2.5rem;}
   div.body-content {grid-area: 3 / span 6;}
@@ -189,6 +211,7 @@ body {
   div.body-content {grid-area: 3 / span 6;}
   .game-thumbnail {display: none}
   #game-collection {width: 125px}
-  .shopping-cart-icon {padding-left: 10px; padding-right: 10px;}
+  .shopping-cart-icon {padding-left: 10px; padding-right: 10px}
+  .inactive {padding-left: 10px; padding-right: 10px}
   footer {grid-area: 4 / span 6;}
 }

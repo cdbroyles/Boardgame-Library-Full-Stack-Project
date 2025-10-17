@@ -1,9 +1,11 @@
 import { useEffect, useState } from "react";
 import checkedOutItems from "../assets/CheckedOutItems";
 import CheckInGame from "./CheckInGame";
+import { useAuth } from "../context/AuthContext";
 
 let ListOfCheckedOutItems = (prop) => {
     const [updateList, setUpdateList] = useState(false);
+    const [isLogIn, setIsLogIn] = useAuth();
 
     //updateList was created to cause a rerender.  This will switch update list back to false whenever it is called so a future rerender could happen again.
     useEffect(() => {
@@ -55,16 +57,17 @@ let ListOfCheckedOutItems = (prop) => {
                             {table.games.map((game, index2) => (
                                 <li key={index2}>
                                     {game}
-                                    <CheckInGame processCheckIn={processCheckIn} game={game} />
+                                    {isLogIn ? <CheckInGame processCheckIn={processCheckIn} game={game} /> : ""}
                                 </li>
                             ))}
                         </ul>
                     </div>
                 ))}
-                <p><strong>Instructions: </strong>Click the "remove from cart" icon when the game is returned.</p>
+                {isLogIn ? <p><strong>Instructions: </strong>Click the "remove from cart" icon when the game is returned.</p> : ""}
             </div>
         );
-    } else {
+    } 
+    else {
 
         //returns a list of checked out items from a specific table number.
         return (
@@ -74,11 +77,11 @@ let ListOfCheckedOutItems = (prop) => {
                     {prop.games.map((game, index) => (
                         <li key={index}>
                             {game}
-                            <CheckInGame processCheckIn={processCheckIn} game={game} />
+                            {isLogIn ? <CheckInGame processCheckIn={processCheckIn} game={game} /> : ""}
                         </li>
                     ))}
                 </ul>
-                <p><strong>Instructions: </strong>Click the "remove from cart" icon when the game is returned.</p>
+                {isLogIn ? <p><strong>Instructions: </strong>Click the "remove from cart" icon when the game is returned.</p> : ""}
             </div>
         );  
     }
