@@ -1,5 +1,6 @@
 package com.example.Boardgame_Library_Backend.Models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -18,6 +19,9 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String username;
+
+    //Will ignore password in JSON requests
+    @JsonIgnore
     private String password;
 
     //JsonProperty helps deal with Jackson renaming to "admin"

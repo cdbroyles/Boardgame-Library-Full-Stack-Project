@@ -18,10 +18,11 @@ public class UserController {
         return userRepository.findAll();
     }
 
-    @GetMapping("/{id}")
-    public User getUserById(@PathVariable Long id) {
-        return userRepository.findById(id).orElse(null);
-    }
+//    @GetMapping("/{id}")
+//    public User getUserById(@PathVariable Long id) {
+//        return userRepository.findById(id).orElse(null);
+//    }
+
     @PostMapping
     public User createUser(@RequestBody User user) {
         return userRepository.save(user);
