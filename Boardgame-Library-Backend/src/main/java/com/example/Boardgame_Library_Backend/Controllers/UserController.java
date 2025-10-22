@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/users")
@@ -18,6 +19,7 @@ public class UserController {
         return userRepository.findAll();
     }
 
+    //Get by ID is not a needed API call
 //    @GetMapping("/{id}")
 //    public User getUserById(@PathVariable Long id) {
 //        return userRepository.findById(id).orElse(null);
@@ -26,5 +28,15 @@ public class UserController {
     @PostMapping
     public User createUser(@RequestBody User user) {
         return userRepository.save(user);
+    }
+
+    @PutMapping("{id}")
+    public User updateUserPassword(@PathVariable Long id, @RequestBody Map<String, String> body) {
+        User user = userRepository.findById(id).orElse(null);
+        if (user != null && body.containsKey("password")) {
+            user.setPassword(body.get("password"));
+            return userRepository.save(user);
+        }
+        return null;
     }
 }
