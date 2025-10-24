@@ -19,7 +19,7 @@ public class InventoryController {
     }
 
     @GetMapping("/{tableNumber}")
-    public Inventory getInventoryByTableNumber(@PathVariable int tableNumber) {
+    public List<Inventory> getInventoryByTableNumber(@PathVariable int tableNumber) {
         return inventoryRepository.findByTableNumber(tableNumber);
     }
 
