@@ -19,12 +19,6 @@ public class UserController {
         return userRepository.findAll();
     }
 
-    //Get by ID is not a needed API call
-//    @GetMapping("/{id}")
-//    public User getUserById(@PathVariable Long id) {
-//        return userRepository.findById(id).orElse(null);
-//    }
-
     @PostMapping
     public User createUser(@RequestBody User user) {
         return userRepository.save(user);
@@ -38,5 +32,10 @@ public class UserController {
             return userRepository.save(user);
         }
         return null;
+    }
+
+    @DeleteMapping("/{id}")
+    public void deleteUser(@PathVariable Long id) {
+        userRepository.deleteById(id);
     }
 }

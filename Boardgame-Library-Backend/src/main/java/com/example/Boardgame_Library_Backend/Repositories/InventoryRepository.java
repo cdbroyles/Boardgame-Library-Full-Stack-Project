@@ -6,4 +6,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface InventoryRepository extends JpaRepository<Inventory, Long> {
+    Inventory findByTableNumber(int tableNumber);
+    Inventory deleteByTitle(String title);
 }

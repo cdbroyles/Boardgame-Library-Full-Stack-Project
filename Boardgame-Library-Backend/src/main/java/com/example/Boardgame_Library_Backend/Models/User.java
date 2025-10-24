@@ -18,6 +18,9 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    //Ensures unique usernames
+    @Column(unique = true)
     private String username;
 
     //Will ignore password in JSON requests
