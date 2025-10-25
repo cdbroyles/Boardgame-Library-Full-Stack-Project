@@ -11,6 +11,7 @@ const GameLibrary = () => {
     const [isLoading, setIsLoading] = useState(true);
     const [isSearching, setIsSearching] = useState(false);
     const [searchCollection, setSearchCollection] = useState("");
+    const [unavailableGameTitles, setUnavailableGameTitles] = useState([]);
     const [isLogIn] = useAuth();
     let searchedGames = [];
 
@@ -26,15 +27,19 @@ const GameLibrary = () => {
         }, []
     );
 
-    if (!isLoading) {
-        //Makes an array of titles that are currently checked out.
-        let unavailableGameTitles = [];
-        for (let table of checkedOutItems) {
-            for (let title of table.games) {
-                unavailableGameTitles.push(title);
-            } 
+    //Loads list of checked out games from the local server
+    useEffect(() => {
+        if (!isLoading) {
+            fetch("http://localhost:8080/checkedoutinventory")
+                .then(response => response.json())
+                .then(data => {
+                    const titles = data.map(item => item.title);
+                    setUnavailableGameTitles(titles);
+                });
         }
+    }, [isLoading]);
 
+    if (!isLoading) {
         //Makes an array of all available titles, regardless if they are or are not checked out.
         let allGameTitles = [];
         for (let game of gameCollection.items.item) {
