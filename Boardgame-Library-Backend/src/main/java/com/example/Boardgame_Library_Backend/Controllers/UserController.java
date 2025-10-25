@@ -40,4 +40,23 @@ public class UserController {
     public void deleteUser(@PathVariable Long id) {
         userRepository.deleteById(id);
     }
+
+    @PostMapping("/login")
+    public Map<String, Object> loginUser(@RequestBody Map<String, String> body) {
+        String username = body.get("username");
+        String password = body.get("password");
+        User user = userRepository.findByUsernameAndPassword(username, password);
+        if (user != null) {
+            return Map.of(
+                "success", true,
+                "id", user.getId(),
+                "username", user.getUsername(),
+                "isAdmin", user.isAdmin()
+            );
+        } else {
+            return Map.of(
+                "success", false,
+                "error", "Invalid username and/or password");
+        }
+    }
 }

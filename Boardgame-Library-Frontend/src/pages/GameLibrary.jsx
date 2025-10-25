@@ -3,7 +3,6 @@ import Header from "../components/CommonHeader";
 import {useState, useEffect} from "react";
 import {xml2js} from 'xml-js';
 import GameCard from "../components/GameCard";
-import checkedOutItems from "../assets/CheckedOutItems";
 import { useAuth } from "../context/AuthContext";
 
 const GameLibrary = () => {
