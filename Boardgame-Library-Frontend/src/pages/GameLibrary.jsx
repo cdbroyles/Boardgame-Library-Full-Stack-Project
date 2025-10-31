@@ -16,15 +16,23 @@ const GameLibrary = () => {
 
     //Loads BGG database of owner "cdbroyles" and converts the xml file to a javascript object
     useEffect(() => {
-        fetch("https://boardgamegeek.com/xmlapi2/collection?username=cdbroyles&own=1&excludesubtype=boardgameexpansion")
+
+        const headers = {
+            "Authorization": `Bearer b92bde0b-1079-43a4-98f5-8cbe2be61a27`,
+        };
+
+        fetch("https://boardgamegeek.com/xmlapi2/collection?username=cdbroyles&own=1&excludesubtype=boardgameexpansion", {headers: headers})
             .then(response => response.text())
             .then(xmlString => {
-                const javaScriptObject = xml2js(xmlString, {compact: true});
+            const javaScriptObject = xml2js(xmlString, { compact: true });
             setGameCollection(javaScriptObject);
             setIsLoading(false);
             })
-        }, []
-    );
+            .catch(error => {
+            console.error("Error loading collection:", error.message);
+            setIsLoading(false);
+            });
+        }, []);
 
     //Loads list of checked out games from the local server
     useEffect(() => {
