@@ -27,10 +27,15 @@ public class UserController {
     }
 
     @PutMapping("{id}")
-    public User updateUserPassword(@PathVariable Long id, @RequestBody Map<String, String> body) {
+    public User updateUserInfo(@PathVariable Long id, @RequestBody Map<String, String> body) {
         User user = userRepository.findById(id).orElse(null);
-        if (user != null && body.containsKey("password")) {
-            user.setPassword(body.get("password"));
+        if (user != null) {
+            if (body.containsKey("password")) {
+                user.setPassword(body.get("password"));
+            }
+            if (body.containsKey("isAdmin")) {
+                user.setAdmin(Boolean.parseBoolean(body.get("isAdmin")));
+            }
             return userRepository.save(user);
         }
         return null;
