@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Footer from "../components/CommonFooter";
 import Header from "../components/CommonHeader";
 import { useAuth } from "../context/AuthContext";
@@ -26,6 +26,19 @@ const UpdatePersonnel = () => {
     const [deleteUsername, setDeleteUsername] = useState("");
 
     const [feedbackMessage, setFeedbackMessage] = useState("");
+    const [userPassList, setUserPassList] = useState([]);
+    const [refreshFlag, setRefreshFlag] = useState(false);
+
+    useEffect(() => {
+        fetch("http://localhost:8080/users")
+            .then(response => response.json())
+            .then(data => {
+                console.log("Fetched userPassList: ", data);
+                setUserPassList(data);
+            });
+    }, [refreshFlag]);
+
+    console.log("Current userPassList: ", userPassList);
 
     const editPersonnelTable = (event) => {
         event.preventDefault();
@@ -39,16 +52,26 @@ const UpdatePersonnel = () => {
             setFeedbackMessage("Username and password are required to add a user.");
             return;
         }
-        const exists = userPass.find(user => user.username === addUsername);
+        const exists = userPassList.find(user => user.username === addUsername);
         if (exists) {
             setFeedbackMessage(`User '${addUsername}' already exists.`);
             return;
         }
-        userPass.push({ username: addUsername, password: addPassword, isAdmin: addIsAdmin });
-        setFeedbackMessage(`Added user '${addUsername}'.`);
-        setAddUsername("");
-        setAddPassword("");
-        setAddIsAdmin(false);
+        fetch("http://localhost:8080/users", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ username: addUsername, password: addPassword, isAdmin: addIsAdmin })
+        })
+        .then(response => response.json())
+        .then(data => {
+            setFeedbackMessage(`Added user '${addUsername}'.`);
+            setAddUsername("");
+            setAddPassword("");
+            setAddIsAdmin(false);
+            setRefreshFlag(previous => !previous);
+        });
     }
 
     const handleUpdatePersonnel = (event) => {
@@ -57,17 +80,33 @@ const UpdatePersonnel = () => {
             setFeedbackMessage("Please provide the username whose password you want to update.");
             return;
         }
-        const index = userPass.findIndex(user => user.username === targetUsername);
+        const index = userPassList.findIndex(user => user.username === targetUsername);
         if (index === -1) {
             setFeedbackMessage(`User '${targetUsername}' not found.`);
             return;
         }
-        if (newPassword) userPass[index].password = newPassword;
-        userPass[index].isAdmin = newIsAdmin;
-        setFeedbackMessage(`Updated password/admin flag for '${targetUsername}'.`);
-        setTargetUsername("");
-        setNewPassword("");
-        setNewIsAdmin(false);
+        fetch(`http://localhost:8080/users/${userPassList[index].id}`, {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ password: newPassword, isAdmin: newIsAdmin })
+        })
+        .then(response => response.json())
+        .then(data => {
+            setFeedbackMessage(`Updated password/admin flag for '${targetUsername}'.`);
+            setTargetUsername("");
+            setNewPassword("");
+            setNewIsAdmin(false);
+            setRefreshFlag(previous => !previous);
+
+            if (targetUsername === username && !newIsAdmin) {
+                alert("You no longer have admin access.");
+                setIsAdmin(false);
+                setIsLogIn(false);
+                setUsername("");
+            }
+        });
     }
 
     const handleDeletePersonnel = (event) => {
@@ -149,11 +188,11 @@ const UpdatePersonnel = () => {
                     ) : submittedValue === "view" ? (
                         <div className="info-page-body">
                             <h2>Personnel List</h2>
-                            {userPass.length === 0 ? (
+                            {userPassList.length === 0 ? (
                                 <p>No personnel found.</p>
                             ) : (
                                 <ul>
-                                    {userPass.map((user, index) => (
+                                    {userPassList.map((user, index) => (
                                         <li key={index}>{user.username} {user.isAdmin ? "(admin)" : "(user)"}</li>
                                     ))}
                                 </ul>

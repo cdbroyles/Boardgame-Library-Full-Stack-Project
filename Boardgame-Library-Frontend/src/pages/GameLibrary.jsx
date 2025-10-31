@@ -19,7 +19,6 @@ const GameLibrary = () => {
         const headers = {
             "Authorization": `Bearer ${import.meta.env.VITE_BGG_API_KEY}`,
         };
-        console.log("API Key:", import.meta.env.VITE_BGG_API_KEY);
         fetch("https://boardgamegeek.com/xmlapi2/collection?username=cdbroyles&own=1&excludesubtype=boardgameexpansion", {headers: headers})
             .then(response => response.text())
             .then(xmlString => {
