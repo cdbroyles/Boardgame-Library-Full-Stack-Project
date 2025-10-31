@@ -16,11 +16,10 @@ const GameLibrary = () => {
 
     //Loads BGG database of owner "cdbroyles" and converts the xml file to a javascript object
     useEffect(() => {
-
         const headers = {
-            "Authorization": `Bearer b92bde0b-1079-43a4-98f5-8cbe2be61a27`,
+            "Authorization": `Bearer ${import.meta.env.VITE_BGG_API_KEY}`,
         };
-
+        console.log("API Key:", import.meta.env.VITE_BGG_API_KEY);
         fetch("https://boardgamegeek.com/xmlapi2/collection?username=cdbroyles&own=1&excludesubtype=boardgameexpansion", {headers: headers})
             .then(response => response.text())
             .then(xmlString => {
