@@ -1,16 +1,14 @@
 import { useState } from "react";
-import userPass from "../assets/LogInInformation.jsx";
 import Footer from "../components/CommonFooter";
 import Header from "../components/CommonHeader";
 import { useAuth } from "../context/AuthContext.jsx";
 import { useNavigate } from "react-router";
-import { useEffect } from "react";
+
 
 const LogInPage = () => {
     const [isLogIn, setIsLogIn, username, setUsername, isAdmin, setIsAdmin] = useAuth();
     const [password, setPassword] = useState("");
     const [showLoginErrorMessage, setShowLoginErrorMessage] = useState(false);
-    const [userPassData, setUserPassData] = useState([]);
     const navigate = useNavigate();
     
     const message = "Username and/or password not found.  Please try again.";

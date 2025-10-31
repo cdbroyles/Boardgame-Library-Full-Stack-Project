@@ -23,15 +23,15 @@ const GameLibrary = () => {
         fetch("https://boardgamegeek.com/xmlapi2/collection?username=cdbroyles&own=1&excludesubtype=boardgameexpansion", {headers: headers})
             .then(response => response.text())
             .then(xmlString => {
-            const javaScriptObject = xml2js(xmlString, { compact: true });
-            setGameCollection(javaScriptObject);
-            setIsLoading(false);
+                const javaScriptObject = xml2js(xmlString, { compact: true });
+                setGameCollection(javaScriptObject);
+                setIsLoading(false);
             })
             .catch(error => {
-            console.error("Error loading collection:", error.message);
-            setIsLoading(false);
+                console.error("Error loading collection:", error.message);
+                setIsLoading(false);
             });
-        }, []);
+    }, []);
 
     //Loads list of checked out games from the local server
     useEffect(() => {
