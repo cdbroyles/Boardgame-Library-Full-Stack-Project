@@ -4,6 +4,7 @@ import {useState, useEffect} from "react";
 import {xml2js} from 'xml-js';
 import GameCard from "../components/GameCard";
 import { useAuth } from "../context/AuthContext";
+import poweredByBGG from "../assets/PoweredByBGG.png";
 
 const GameLibrary = () => {
     const [gameCollection, setGameCollection] = useState(null);
@@ -119,7 +120,8 @@ const GameLibrary = () => {
                                 (gameCollection.items.item.map((game) => (<GameCard key={game._attributes.objectid} game={game} />)))
                             )
                     }
-                </div>    
+                </div>
+            <img src={poweredByBGG} alt="Powered by BoardGameGeek.com" className="bgg-logo" />
             </main>
             <Footer />
         </div>

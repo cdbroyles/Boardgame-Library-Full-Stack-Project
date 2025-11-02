@@ -198,6 +198,20 @@ body {
   margin: 0px 4px 0px 4px;
 }
 
+.bgg-logo {
+  display: block;
+  margin: 2rem auto 1rem auto; /* centers it horizontally, adds spacing */
+  width: 180px;                /* moderate size, looks good on most screens */
+  height: auto;                /* keeps correct aspect ratio */
+  opacity: 0.85;               /* slightly subdued look */
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.bgg-logo:hover {
+  opacity: 1;                  /* brighten slightly on hover */
+  transform: scale(1.05);      /* gentle zoom effect */
+}
+
 @media only screen and (max-width: 1025px) {
   h1 {grid-area: 1 / span 6; font-size: 3rem;}
   h1.library-page-header {grid-area: 2 / span 6; font-size: 2.5rem;}
