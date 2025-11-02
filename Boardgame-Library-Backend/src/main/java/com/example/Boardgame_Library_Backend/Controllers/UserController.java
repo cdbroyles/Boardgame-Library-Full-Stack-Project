@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Map;
 
+//CrossOrigin to allow requests from frontend server
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/users")
 public class UserController {
@@ -25,10 +27,15 @@ public class UserController {
     }
 
     @PutMapping("{id}")
-    public User updateUserPassword(@PathVariable Long id, @RequestBody Map<String, String> body) {
+    public User updateUserInfo(@PathVariable Long id, @RequestBody Map<String, String> body) {
         User user = userRepository.findById(id).orElse(null);
-        if (user != null && body.containsKey("password")) {
-            user.setPassword(body.get("password"));
+        if (user != null) {
+            if (body.containsKey("password")) {
+                user.setPassword(body.get("password"));
+            }
+            if (body.containsKey("isAdmin")) {
+                user.setAdmin(Boolean.parseBoolean(body.get("isAdmin")));
+            }
             return userRepository.save(user);
         }
         return null;
@@ -37,5 +44,24 @@ public class UserController {
     @DeleteMapping("/{id}")
     public void deleteUser(@PathVariable Long id) {
         userRepository.deleteById(id);
+    }
+
+    @PostMapping("/login")
+    public Map<String, Object> loginUser(@RequestBody Map<String, String> body) {
+        String username = body.get("username");
+        String password = body.get("password");
+        User user = userRepository.findByUsernameAndPassword(username, password);
+        if (user != null) {
+            return Map.of(
+                "success", true,
+                "id", user.getId(),
+                "username", user.getUsername(),
+                "isAdmin", user.isAdmin()
+            );
+        } else {
+            return Map.of(
+                "success", false,
+                "error", "Invalid username and/or password");
+        }
     }
 }

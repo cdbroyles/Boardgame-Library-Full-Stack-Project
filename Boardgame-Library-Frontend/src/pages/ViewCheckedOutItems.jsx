@@ -1,4 +1,3 @@
-import checkedOutItems from "../assets/CheckedOutItems";
 import Footer from "../components/CommonFooter";
 import Header from "../components/CommonHeader";
 import { useEffect, useState } from "react";
@@ -9,6 +8,33 @@ const ViewCheckedOutItems = () => {
     const [isSubmitted, setIsSubmitted] = useState(false);
     const [liveTableNumbers, setLiveTableNumbers] = useState([]);
     const [tableNumberInventory, setTableNumberInventory] = useState([]);
+    const [checkedOutItems, setCheckedOutItems] = useState([]);
+
+    //This effect pulls the list of active table numbers and checked out items from the server and map it to a structured array of [{tableNumber: number, games: [gameTitle, ...]}, ... ]
+    useEffect(() => {
+        fetch("http://localhost:8080/checkedoutinventory")
+            .then(response => response.json())
+            .then(data => {
+                const dataGroupedByTableNumber = [];
+                data.forEach(item => {
+                    let isTableFound = false;
+                    for (let i = 0; i < dataGroupedByTableNumber.length; i++) {
+                        if (dataGroupedByTableNumber[i].tableNumber === item.tableNumber) {
+                            dataGroupedByTableNumber[i].games.push(item.title);
+                            isTableFound = true;
+                            break;
+                        }
+                    }
+                    if (!isTableFound) {
+                        dataGroupedByTableNumber.push({
+                            tableNumber: item.tableNumber,
+                            games: [item.title]
+                        });
+                    }
+                });
+                setCheckedOutItems(dataGroupedByTableNumber);
+            });
+    }, []);
 
     //This defines which tables currently have at least one game checked out
     useEffect(() => {
@@ -71,7 +97,6 @@ const ViewCheckedOutItems = () => {
                 {isSubmitted && tableNumber === 'View All Tables' ? (
                     <ListOfCheckedOutItems
                         tableNumber={tableNumber}
-                        checkedOutItems={checkedOutItems}
                 />
                 ) : isSubmitted && liveTableNumbers.includes(Number(tableNumber)) ? (
                     <ListOfCheckedOutItems

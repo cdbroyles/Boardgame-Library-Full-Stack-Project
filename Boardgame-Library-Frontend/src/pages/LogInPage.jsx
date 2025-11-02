@@ -1,9 +1,9 @@
 import { useState } from "react";
-import userPass from "../assets/LogInInformation.jsx";
 import Footer from "../components/CommonFooter";
 import Header from "../components/CommonHeader";
 import { useAuth } from "../context/AuthContext.jsx";
 import { useNavigate } from "react-router";
+
 
 const LogInPage = () => {
     const [isLogIn, setIsLogIn, username, setUsername, isAdmin, setIsAdmin] = useAuth();
@@ -15,20 +15,23 @@ const LogInPage = () => {
 
     const validation = (event) => {
         event.preventDefault();
-        for (const user of userPass) {
-            if (user.username === username) {
-                if (user.password === password) {
-                    setIsLogIn(true);
-                    if (user.isAdmin === true) {
-                        setIsAdmin(true);
-                    }
-                    setShowLoginErrorMessage(false);
-                    navigate('/');
-                } 
+
+        fetch("http://localhost:8080/users/login", {
+            method: "POST",
+            headers: {"Content-Type": "application/json"},
+            body: JSON.stringify({username: username, password: password})
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                setIsLogIn(true);
+                setIsAdmin(data.isAdmin);
+                setShowLoginErrorMessage(false);
+                navigate('/');
             } else {
                 setShowLoginErrorMessage(true);
             }
-        }
+        });
     }
 
     return(

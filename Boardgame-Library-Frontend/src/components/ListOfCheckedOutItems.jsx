@@ -1,46 +1,50 @@
 import { useEffect, useState } from "react";
-import checkedOutItems from "../assets/CheckedOutItems";
 import CheckInGame from "./CheckInGame";
 import { useAuth } from "../context/AuthContext";
 
 let ListOfCheckedOutItems = (prop) => {
-    const [updateList, setUpdateList] = useState(false);
     const [isLogIn, setIsLogIn] = useAuth();
+    const [refreshFlag, setRefreshFlag] = useState(false);
+    const [checkedOutItems, setCheckedOutItems] = useState([]);
 
-    //updateList was created to cause a rerender.  This will switch update list back to false whenever it is called so a future rerender could happen again.
+    //This effect pulls the list of active table numbers and checked out items from the server
     useEffect(() => {
-        setUpdateList(false);
-    }, [updateList]);
+        fetch("http://localhost:8080/checkedoutinventory")
+            .then(response => response.json())
+            .then(data => {
+                const dataGroupedByTableNumber = [];
+                data.forEach(item => {
+                    let isTableFound = false;
+                    for (let i = 0; i < dataGroupedByTableNumber.length; i++) {
+                        if (dataGroupedByTableNumber[i].tableNumber === item.tableNumber) {
+                            dataGroupedByTableNumber[i].games.push(item.title);
+                            isTableFound = true;
+                            break;
+                        }
+                    }
+                    if (!isTableFound) {
+                        dataGroupedByTableNumber.push({
+                            tableNumber: item.tableNumber,
+                            games: [item.title]
+                        });
+                    }
+                });
+                setCheckedOutItems(dataGroupedByTableNumber);
+            });
+    }, [refreshFlag]);
 
     //Check in function needed b/c cannot alter a prop value within a component.
     const processCheckIn = (returnedItem) => {
-        let tableReturningItem = null;
-        let indexOfTableReturningItem = null;
-
-        //Handles beginning check in logic when "View All Tables" button is clicked
-        if (prop.tableNumber === "View All Tables") {
-            const tableReturningItemObject = checkedOutItems.find(table => table.games.includes(returnedItem));
-            tableReturningItem = tableReturningItemObject.tableNumber;
-            indexOfTableReturningItem = checkedOutItems.indexOf(tableReturningItemObject);
-        }
-
-        //Handles beginning check in logic when a specific table number is viewed.
-        if (typeof(prop.tableNumber) === "number") {
-            tableReturningItem = prop.tableNumber;
-            indexOfTableReturningItem = checkedOutItems.findIndex(table => table.tableNumber === Number(tableReturningItem));
-        }
-        
-        //common logic between the two methods.
-        const indexOfReturnedItem = checkedOutItems[indexOfTableReturningItem].games.indexOf(returnedItem);
-        checkedOutItems[indexOfTableReturningItem].games.splice(indexOfReturnedItem,1);
-        if(checkedOutItems[indexOfTableReturningItem].games.length === 0) {
-            checkedOutItems.splice(indexOfTableReturningItem, 1);
-        }
-        setUpdateList(true);
+        fetch(`http://localhost:8080/checkedoutinventory/${returnedItem}`, {
+            method: "DELETE"
+        })
+        .then(() => {
+            setRefreshFlag(previous => !previous);
+        });
     }
 
     //returns a message if 'View All Tables' is clicked and there are no currently checked out items.
-    if (prop.tableNumber === 'View All Tables' && prop.checkedOutItems.length === 0) {
+    if (prop.tableNumber === 'View All Tables' && checkedOutItems.length === 0) {
         return (
             <p className="checkout-list">There are currently no items checked out.</p>
         );
@@ -50,7 +54,7 @@ let ListOfCheckedOutItems = (prop) => {
     if (prop.tableNumber === 'View All Tables') {
         return (
             <div className="checkout-list">
-                {prop.checkedOutItems.map((table, index) => (
+                {checkedOutItems.map((table, index) => (
                     <div key={index}>
                         <p>Table Number: {table.tableNumber}</p>
                         <ul>
@@ -68,13 +72,14 @@ let ListOfCheckedOutItems = (prop) => {
         );
     } 
     else {
-
+        let indicatedTable = checkedOutItems.find(table => table.tableNumber == prop.tableNumber);
+        let gamesForTable = indicatedTable ? indicatedTable.games : [];
         //returns a list of checked out items from a specific table number.
         return (
             <div className="checkout-list">
                 <p>Table Number: {prop.tableNumber}</p>
                 <ul>
-                    {prop.games.map((game, index) => (
+                    {gamesForTable.map((game, index) => (
                         <li key={index}>
                             {game}
                             {isLogIn ? <CheckInGame processCheckIn={processCheckIn} game={game} /> : ""}

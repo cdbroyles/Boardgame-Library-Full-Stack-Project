@@ -1,6 +1,5 @@
 package com.example.Boardgame_Library_Backend.Models;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -12,7 +11,7 @@ import lombok.experimental.Accessors;
 @Setter
 @NoArgsConstructor
 @Accessors(fluent = false)
-public class Inventory {
+public class CheckedOutInventory {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -20,15 +19,10 @@ public class Inventory {
     @Column(unique = true)
     private String title;
 
-    //JsonProperty helps deal with Jackson renaming to "available"
-    @JsonProperty("isAvailable")
-    private boolean isAvailable;
-
     private int tableNumber;
 
-    public Inventory(String title, boolean isAvailable, int tableNumber) {
+    public CheckedOutInventory(String title, int tableNumber) {
         this.title = title;
-        this.isAvailable = isAvailable;
         this.tableNumber = tableNumber;
     }
 }

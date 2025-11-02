@@ -3,38 +3,49 @@ import Header from "../components/CommonHeader";
 import {useState, useEffect} from "react";
 import {xml2js} from 'xml-js';
 import GameCard from "../components/GameCard";
-import checkedOutItems from "../assets/CheckedOutItems";
 import { useAuth } from "../context/AuthContext";
+import poweredByBGG from "../assets/PoweredByBGG.png";
 
 const GameLibrary = () => {
     const [gameCollection, setGameCollection] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
     const [isSearching, setIsSearching] = useState(false);
     const [searchCollection, setSearchCollection] = useState("");
+    const [unavailableGameTitles, setUnavailableGameTitles] = useState([]);
     const [isLogIn] = useAuth();
     let searchedGames = [];
 
     //Loads BGG database of owner "cdbroyles" and converts the xml file to a javascript object
     useEffect(() => {
-        fetch("https://boardgamegeek.com/xmlapi2/collection?username=cdbroyles&own=1&excludesubtype=boardgameexpansion")
+        const headers = {
+            "Authorization": `Bearer ${import.meta.env.VITE_BGG_API_KEY}`,
+        };
+        fetch("https://boardgamegeek.com/xmlapi2/collection?username=cdbroyles&own=1&excludesubtype=boardgameexpansion", {headers: headers})
             .then(response => response.text())
             .then(xmlString => {
-                const javaScriptObject = xml2js(xmlString, {compact: true});
-            setGameCollection(javaScriptObject);
-            setIsLoading(false);
+                const javaScriptObject = xml2js(xmlString, { compact: true });
+                setGameCollection(javaScriptObject);
+                setIsLoading(false);
             })
-        }, []
-    );
+            .catch(error => {
+                console.error("Error loading collection:", error.message);
+                setIsLoading(false);
+            });
+    }, []);
+
+    //Loads list of checked out games from the local server
+    useEffect(() => {
+        if (!isLoading) {
+            fetch("http://localhost:8080/checkedoutinventory")
+                .then(response => response.json())
+                .then(data => {
+                    const titles = data.map(item => item.title);
+                    setUnavailableGameTitles(titles);
+                });
+        }
+    }, [isLoading]);
 
     if (!isLoading) {
-        //Makes an array of titles that are currently checked out.
-        let unavailableGameTitles = [];
-        for (let table of checkedOutItems) {
-            for (let title of table.games) {
-                unavailableGameTitles.push(title);
-            } 
-        }
-
         //Makes an array of all available titles, regardless if they are or are not checked out.
         let allGameTitles = [];
         for (let game of gameCollection.items.item) {
@@ -109,7 +120,8 @@ const GameLibrary = () => {
                                 (gameCollection.items.item.map((game) => (<GameCard key={game._attributes.objectid} game={game} />)))
                             )
                     }
-                </div>    
+                </div>
+            <img src={poweredByBGG} alt="Powered by BoardGameGeek.com" className="bgg-logo" />
             </main>
             <Footer />
         </div>

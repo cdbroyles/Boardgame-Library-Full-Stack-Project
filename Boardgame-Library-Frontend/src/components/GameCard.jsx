@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import checkedOutItems from "../assets/CheckedOutItems";
 import CheckInGame from "./CheckInGame";
 import CheckOutGame from "./CheckoutGame";
 import { useAuth } from "../context/AuthContext";
@@ -9,6 +8,8 @@ let GameCard = (prop) => {
     const [showReceipt, setShowReceipt] = useState(false);
     const [tableNumber, setTableNumber] = useState('');
     const [isLogIn, setIsLogIn] = useAuth();
+    const [checkedOutItems, setCheckedOutItems] = useState([]);
+    const [refreshFlag, setRefreshFlag] = useState(false);
 
     //Sets a 3 second timer for the receipt to show.  Activates when showReceipt is true.
     useEffect(() => {
@@ -19,33 +20,53 @@ let GameCard = (prop) => {
         }
     }, [showReceipt]);
 
+    //This effect pulls the list of active table numbers and checked out items from the server
+    useEffect(() => {
+        fetch("http://localhost:8080/checkedoutinventory")
+            .then(response => response.json())
+            .then(data => {
+                const dataGroupedByTableNumber = [];
+                data.forEach(item => {
+                    let isTableFound = false;
+                    for (let i = 0; i < dataGroupedByTableNumber.length; i++) {
+                        if (dataGroupedByTableNumber[i].tableNumber === item.tableNumber) {
+                            dataGroupedByTableNumber[i].games.push(item.title);
+                            isTableFound = true;
+                            break;
+                        }
+                    }
+                    if (!isTableFound) {
+                        dataGroupedByTableNumber.push({
+                            tableNumber: item.tableNumber,
+                            games: [item.title]
+                        });
+                    }
+                });
+                setCheckedOutItems(dataGroupedByTableNumber);
+            });
+    }, [refreshFlag]);
+
     const updateCheckedOutItems = (event) => {
         event.preventDefault();
         let newCheckout = {
             tableNumber: Number(tableNumber),
-            games: [prop.game.name._text]
+            title: prop.game.name._text
         };
-        let addedItemToArray = false;
-
-        //Loops through the array of checked out items to see if table numbers match.
-        for (let table of checkedOutItems) {
-            if (newCheckout.tableNumber == table.tableNumber) {
-                table.games.push(prop.game.name._text);
-                prop.game.isAvailable = false;
-                addedItemToArray = true;
-            }
-        }
-
-        //If table numbers do not match, this will append a new table number with their checkedout items.
-        if (!addedItemToArray) {
-            checkedOutItems.push(newCheckout);
-            prop.game.isAvailable = false;
-        }
+        
+        fetch("http://localhost:8080/checkedoutinventory", {
+            method: "POST",
+            headers: {"Content-Type": "application/json"},
+            body: JSON.stringify(newCheckout)
+        })
+            .then(response => response.json())
+            .then(() => {
+                setRefreshFlag(previous => !previous);
+            })
 
         //This will remove the table number input form, then show a confirmation recepit that the checkout was successful.
+        prop.game.isAvailable = false;
         setShowForm(false);
         setShowReceipt(true);
-        addedItemToArray = false;
     };
 
     //Checkout function to match Checkin function
@@ -56,14 +77,12 @@ let GameCard = (prop) => {
     
     //Checkin function needed b/c cannot alter a prop value within a component.
     const processCheckIn = () => {
-        const tableReturningItem = checkedOutItems.find(table => table.games.includes(prop.game.name._text));
-        const indexOfTableReturningItem = checkedOutItems.indexOf(tableReturningItem);
-        const returnedItem = tableReturningItem.games.find(game => game === prop.game.name._text);
-        const indexOfReturnedItem = tableReturningItem.games.indexOf(returnedItem);
-        checkedOutItems[indexOfTableReturningItem].games.splice(indexOfReturnedItem,1);
-        if (tableReturningItem.games.length === 0) {
-            checkedOutItems.splice(indexOfTableReturningItem, 1);
-        }
+        fetch(`http://localhost:8080/checkedoutinventory/${prop.game.name._text}`, {
+            method: "DELETE"
+        })
+        .then(() => {
+            setRefreshFlag(previous => !previous);
+        });
         prop.game.isAvailable = true;
         setShowReceipt(true);
     }
