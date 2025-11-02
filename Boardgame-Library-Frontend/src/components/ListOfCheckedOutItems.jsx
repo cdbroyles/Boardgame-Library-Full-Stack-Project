@@ -72,13 +72,14 @@ let ListOfCheckedOutItems = (prop) => {
         );
     } 
     else {
-
+        let indicatedTable = checkedOutItems.find(table => table.tableNumber == prop.tableNumber);
+        let gamesForTable = indicatedTable ? indicatedTable.games : [];
         //returns a list of checked out items from a specific table number.
         return (
             <div className="checkout-list">
                 <p>Table Number: {prop.tableNumber}</p>
                 <ul>
-                    {prop.games.map((game, index) => (
+                    {gamesForTable.map((game, index) => (
                         <li key={index}>
                             {game}
                             {isLogIn ? <CheckInGame processCheckIn={processCheckIn} game={game} /> : ""}

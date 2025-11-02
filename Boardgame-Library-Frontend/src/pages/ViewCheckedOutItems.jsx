@@ -97,7 +97,6 @@ const ViewCheckedOutItems = () => {
                 {isSubmitted && tableNumber === 'View All Tables' ? (
                     <ListOfCheckedOutItems
                         tableNumber={tableNumber}
-                        checkedOutItems={checkedOutItems}
                 />
                 ) : isSubmitted && liveTableNumbers.includes(Number(tableNumber)) ? (
                     <ListOfCheckedOutItems
