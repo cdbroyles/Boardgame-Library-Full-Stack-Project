@@ -21,27 +21,27 @@ const GameLibrary = () => {
             "Authorization": `Bearer ${import.meta.env.VITE_BGG_API_KEY}`,
         };
         fetch("https://boardgamegeek.com/xmlapi2/collection?username=cdbroyles&own=1&excludesubtype=boardgameexpansion", {headers: headers})
-            .then(response => response.text())
-            .then(xmlString => {
-                const javaScriptObject = xml2js(xmlString, { compact: true });
-                setGameCollection(javaScriptObject);
-                setIsLoading(false);
-            })
-            .catch(error => {
-                console.error("Error loading collection:", error.message);
-                setIsLoading(false);
-            });
+        .then(response => response.text())
+        .then(xmlString => {
+            const javaScriptObject = xml2js(xmlString, { compact: true });
+            setGameCollection(javaScriptObject);
+            setIsLoading(false);
+        })
+        .catch(error => {
+            console.error("Error loading collection:", error.message);
+            setIsLoading(false);
+        });
     }, []);
 
-    //Loads list of checked out games from the local server
+    //This API call loads list of checked out games from the server once the BGG collection has loaded.
     useEffect(() => {
         if (!isLoading) {
             fetch("http://localhost:8080/checkedoutinventory")
-                .then(response => response.json())
-                .then(data => {
-                    const titles = data.map(item => item.title);
-                    setUnavailableGameTitles(titles);
-                });
+            .then(response => response.json())
+            .then(data => {
+                const titles = data.map(item => item.title);
+                setUnavailableGameTitles(titles);
+            });
         }
     }, [isLoading]);
 
@@ -63,12 +63,14 @@ const GameLibrary = () => {
             }
         }
 
+        //Searches the collection based on user input in the search box.
         if (searchCollection.trim() !== "") {
             searchedGames = gameCollection.items.item.filter((game) =>
                 game.name._text.toLowerCase().includes(searchCollection.toLowerCase())
             );
         }
 
+        //If the search box is cleared, it will exit search mode.
         if (isSearching) {
             if (searchCollection == "") {
                 setIsSearching(false);

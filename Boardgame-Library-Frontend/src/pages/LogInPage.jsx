@@ -16,6 +16,9 @@ const LogInPage = () => {
     const validation = (event) => {
         event.preventDefault();
 
+        //This API call checks the username and password against the users stored on the server.
+        //Validation is handled on the backend as to protect user information.
+        //If the username and password are valid, backend sends back a success message and whether the user is an admin.
         fetch("http://localhost:8080/users/login", {
             method: "POST",
             headers: {"Content-Type": "application/json"},
@@ -71,7 +74,7 @@ const LogInPage = () => {
                     </button>
                     
                 </form>
-                {showLoginErrorMessage ? <p className="info-page-body"><b>{message}</b></p> : ""}
+                {showLoginErrorMessage ? <p className="info-page-body"><b>{message}</b></p> : <></>}
             </main>
             <Footer />
         </div>

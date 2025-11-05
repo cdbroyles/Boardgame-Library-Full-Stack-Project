@@ -4,58 +4,61 @@ import Header from "../components/CommonHeader";
 import { useAuth } from "../context/AuthContext";
 
 const UpdatePersonnel = () => {
-    // Global auth state
+    //Global auth state
     const [isLogIn, setIsLogIn, username, setUsername, isAdmin, setIsAdmin] = useAuth();
 
-    // form selection
+    //Form selection states
     const [selectedValue, setSelectedValue] = useState("");
     const [submittedValue, setSubmittedValue] = useState("");
 
-    // Add
+    //Add information states
     const [addUsername, setAddUsername] = useState("");
     const [addPassword, setAddPassword] = useState("");
     const [addIsAdmin, setAddIsAdmin] = useState(false);
 
-    // Update (password & admin only)
+    //Update information states
     const [targetUsername, setTargetUsername] = useState("");
     const [newPassword, setNewPassword] = useState("");
     const [newIsAdmin, setNewIsAdmin] = useState(false);
 
-    // Delete
+    //Delete information states
     const [deleteUsername, setDeleteUsername] = useState("");
 
+    //Other states
     const [feedbackMessage, setFeedbackMessage] = useState("");
     const [userPassList, setUserPassList] = useState([]);
     const [refreshFlag, setRefreshFlag] = useState(false);
 
+    //This API call loads the list of users from the server.  Backend only sends username and isAdmin flag.
     useEffect(() => {
         fetch("http://localhost:8080/users")
-            .then(response => response.json())
-            .then(data => {
-                console.log("Fetched userPassList: ", data);
-                setUserPassList(data);
-            });
+        .then(response => response.json())
+        .then(data => {
+            setUserPassList(data);
+        });
     }, [refreshFlag]);
 
-    console.log("Current userPassList: ", userPassList);
-
-    const editPersonnelTable = (event) => {
+    //Handles the selection of which personnel action to take from dropdown menu.
+    const submitPersonnelSelection = (event) => {
         event.preventDefault();
         setSubmittedValue(selectedValue);
         setFeedbackMessage("");
     }
 
+    //Handles adding new personnel to the server
     const handleAddPersonnel = (event) => {
         event.preventDefault();
         if (!addUsername || !addPassword) {
             setFeedbackMessage("Username and password are required to add a user.");
             return;
         }
+
         const exists = userPassList.find(user => user.username === addUsername);
         if (exists) {
             setFeedbackMessage(`User '${addUsername}' already exists.`);
             return;
         }
+
         fetch("http://localhost:8080/users", {
             method: "POST",
             headers: {
@@ -73,12 +76,14 @@ const UpdatePersonnel = () => {
         });
     }
 
+    //Handles updating existing personnel information on the server (password and/or admin status)
     const handleUpdatePersonnel = (event) => {
         event.preventDefault();
         if (!targetUsername) {
             setFeedbackMessage("Please provide the username whose password or Admin status you want to update.");
             return;
         }
+
         const index = userPassList.findIndex(user => user.username === targetUsername);
 
         if (index === -1) {
@@ -86,9 +91,9 @@ const UpdatePersonnel = () => {
             return;
         }
 
-        //Prepares update data based off inputs of user
+        //Prepares update of admin status based off inputs of user
         const updateData = {isAdmin: newIsAdmin};
-
+        //Ensures password is only updated if a new password is provided
         if (newPassword.trim() !== "") {
             updateData.password = newPassword;
         }
@@ -116,17 +121,21 @@ const UpdatePersonnel = () => {
         });
     }
 
+    //Handles deleting personnel from the server
     const handleDeletePersonnel = (event) => {
         event.preventDefault();
         if (!deleteUsername) {
             setFeedbackMessage("Please provide a username to delete.");
             return;
         }
+
         const index = userPassList.findIndex(user => user.username === deleteUsername);
+
         if (index === -1) {
             setFeedbackMessage(`User '${deleteUsername}' not found.`);
             return;
         }
+
         fetch(`http://localhost:8080/users/${userPassList[index].id}`, {
             method: "DELETE",
             headers: {
@@ -156,7 +165,7 @@ const UpdatePersonnel = () => {
                     <form
                         id="checked-out-items-input-form"
                         className="info-page-body"
-                        onSubmit={editPersonnelTable}
+                        onSubmit={submitPersonnelSelection}
                     >
                         <label className="table-number-label">
                             Please select one of the listed options:
@@ -220,7 +229,6 @@ const UpdatePersonnel = () => {
                             )}
                         </div>
                     ) : null}
-
                     {feedbackMessage && <p className="info-page-body"><strong>{feedbackMessage}</strong></p>}
                 </main>
                 <Footer />

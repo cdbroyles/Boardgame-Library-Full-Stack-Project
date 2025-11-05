@@ -10,7 +10,7 @@ const ViewCheckedOutItems = () => {
     const [tableNumberInventory, setTableNumberInventory] = useState([]);
     const [checkedOutItems, setCheckedOutItems] = useState([]);
 
-    //This effect pulls the list of active table numbers and checked out items from the server and map it to a structured array of [{tableNumber: number, games: [gameTitle, ...]}, ... ]
+    //This API call pulls the list of active table numbers and checked out items from the server and map it to a structured array of [{tableNumber: number, games: [gameTitle1, ...]}, ... ]
     useEffect(() => {
         fetch("http://localhost:8080/checkedoutinventory")
             .then(response => response.json())
@@ -95,14 +95,9 @@ const ViewCheckedOutItems = () => {
                     </button>
                 </form>
                 {isSubmitted && tableNumber === 'View All Tables' ? (
-                    <ListOfCheckedOutItems
-                        tableNumber={tableNumber}
-                />
+                    <ListOfCheckedOutItems tableNumber={tableNumber} />
                 ) : isSubmitted && liveTableNumbers.includes(Number(tableNumber)) ? (
-                    <ListOfCheckedOutItems
-                        tableNumber={Number(tableNumber)}
-                        games={tableNumberInventory[0].games}
-                    />
+                    <ListOfCheckedOutItems tableNumber={Number(tableNumber)} />
                 ) : isSubmitted && tableNumber !== 'View All Tables' && isNaN(tableNumber) ? (
                     <p className="checkout-list">Please enter a numeric value.</p>
                 ) : isSubmitted ? (
