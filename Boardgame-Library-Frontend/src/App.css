@@ -200,16 +200,16 @@ body {
 
 .bgg-logo {
   display: block;
-  margin: 2rem auto 1rem auto; /* centers it horizontally, adds spacing */
-  width: 180px;                /* moderate size, looks good on most screens */
-  height: auto;                /* keeps correct aspect ratio */
-  opacity: 0.85;               /* slightly subdued look */
+  margin: 2rem auto 1rem auto;
+  width: 180px;
+  height: auto;
+  opacity: 0.85;
   transition: opacity 0.3s ease, transform 0.3s ease;
 }
 
 .bgg-logo:hover {
-  opacity: 1;                  /* brighten slightly on hover */
-  transform: scale(1.05);      /* gentle zoom effect */
+  opacity: 1;
+  transform: scale(1.05);
 }
 
 @media only screen and (max-width: 1025px) {
