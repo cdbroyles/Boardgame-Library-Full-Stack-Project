@@ -13,27 +13,27 @@ const ViewCheckedOutItems = () => {
     //This API call pulls the list of active table numbers and checked out items from the server and map it to a structured array of [{tableNumber: number, games: [gameTitle1, ...]}, ... ]
     useEffect(() => {
         fetch("http://localhost:8080/checkedoutinventory")
-            .then(response => response.json())
-            .then(data => {
-                const dataGroupedByTableNumber = [];
-                data.forEach(item => {
-                    let isTableFound = false;
-                    for (let i = 0; i < dataGroupedByTableNumber.length; i++) {
-                        if (dataGroupedByTableNumber[i].tableNumber === item.tableNumber) {
-                            dataGroupedByTableNumber[i].games.push(item.title);
-                            isTableFound = true;
-                            break;
-                        }
+        .then(response => response.json())
+        .then(data => {
+            const dataGroupedByTableNumber = [];
+            data.forEach(item => {
+                let isTableFound = false;
+                for (let i = 0; i < dataGroupedByTableNumber.length; i++) {
+                    if (dataGroupedByTableNumber[i].tableNumber === item.tableNumber) {
+                        dataGroupedByTableNumber[i].games.push(item.title);
+                        isTableFound = true;
+                        break;
                     }
-                    if (!isTableFound) {
-                        dataGroupedByTableNumber.push({
-                            tableNumber: item.tableNumber,
-                            games: [item.title]
-                        });
-                    }
-                });
-                setCheckedOutItems(dataGroupedByTableNumber);
+                }
+                if (!isTableFound) {
+                    dataGroupedByTableNumber.push({
+                        tableNumber: item.tableNumber,
+                        games: [item.title]
+                    });
+                }
             });
+            setCheckedOutItems(dataGroupedByTableNumber);
+        });
     }, []);
 
     //This defines which tables currently have at least one game checked out

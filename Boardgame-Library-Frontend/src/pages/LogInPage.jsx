@@ -72,7 +72,6 @@ const LogInPage = () => {
                     >
                         Submit
                     </button>
-                    
                 </form>
                 {showLoginErrorMessage ? <p className="info-page-body"><b>{message}</b></p> : <></>}
             </main>

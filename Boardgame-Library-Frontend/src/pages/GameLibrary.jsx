@@ -13,6 +13,7 @@ const GameLibrary = () => {
     const [searchCollection, setSearchCollection] = useState("");
     const [unavailableGameTitles, setUnavailableGameTitles] = useState([]);
     const [isLogIn] = useAuth();
+    
     let searchedGames = [];
 
     //Loads BGG database of owner "cdbroyles" and converts the xml file to a javascript object
