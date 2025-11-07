@@ -12,6 +12,8 @@ const About = () => {
                     This application will allow customers to view the inventory and see what is and is not available.  
                     This will also allow the business to track who has their games.  
                     The inventory list is autopopulated by using the Board Game Geek API, and calling a user's collection.
+                    There is a login system for employees with different permission levels, allowing for better security and management of the inventory.
+                    This is a full stack application built with a React front-end and a Spring Boot back-end.
                 </p>    
             </main>
             <Footer />
