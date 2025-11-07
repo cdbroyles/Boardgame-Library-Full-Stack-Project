@@ -9,7 +9,7 @@ const Header = () => {
             <h1>
                 <Link to="/" className="header-link">BoardGame Library</Link>
             </h1>
-            {isAdmin ? <Link className="header-login" to="/Personnel">Update Personnel</Link> : <p></p>}
+            {isAdmin ? <Link className="header-login" to="/Personnel">Update Personnel</Link> : <></>}
             {isLogIn ? <p className="header-login" onClick={() => {setIsLogIn(false); setIsAdmin(false)}}>Log Out</p>: <Link to="/login" className="header-login">Log In</Link>}
         </header>
     );
